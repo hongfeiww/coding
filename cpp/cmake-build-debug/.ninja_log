@@ -1,0 +1,7 @@
+# ninja log v5
+16	3457	1655211506496872033	CMakeFiles/cpp.dir/tree.cpp.o	5fb4f38a4691a328
+3	2071	1655194424602010126	CMakeFiles/cpp.dir/graph.cpp.o	d73ebcd91e1dc00
+8	1297	1655362816520759542	CMakeFiles/cpp.dir/dp.cpp.o	471d2b7d9fe80df7
+6	2051	1655361458714059478	CMakeFiles/cpp.dir/details.cpp.o	9014ed9942bf6a8c
+1297	1413	1655362816638567913	cpp	eecbfabffe1dedd4
+17	1829	1655361541673774907	CMakeFiles/cpp.dir/main.cpp.o	b10a9ba6cf2fe7cf
