@@ -10,6 +10,7 @@
 using namespace std;
 
 class backtracking {
+public:
 //    解决一个回溯问题，实际上就是一个决策树的遍历过程，站在回溯树的一个节点上，你只需要思考 3 个问题：
 //    1、路径：也就是已经做出的选择。
 //    2、选择列表：也就是你当前可以做的选择。
@@ -30,6 +31,7 @@ class backtracking {
     vector<vector<int>>res;
     vector<vector<int>>total;
     vector<int>path;
+    vector<int>subset;
     vector<vector<int>> permute(vector<int>& nums);
     void permute(vector<int>& nums,vector<bool>& visited);
 
@@ -60,7 +62,15 @@ class backtracking {
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph);
     void allPathsSourceTarget(vector<vector<int>>& graph, int node);
 
+    //[698] 划分为k个相等子集 //想不出来就回溯，暴力=回溯 //time exceed -> prune，这个prune方法没想到
+    bool canPartitionKSubsetsRecur(vector<int>& nums, vector<int>& sums, int pos, int sum);
+    bool canPartitionKSubsets(vector<int>& nums, int k);
 
+    //[offer2 086]分割palindrome string //回溯是分支视角，一开始的执行逻辑角度不对，以为是累积的
+    vector<vector<string>>res_strs;
+    vector<string>path_str;
+    vector<vector<string>> partition(string s);
+    void partition(string s, vector<vector<bool>> &is_palindrome, int pos);
 };
 
 

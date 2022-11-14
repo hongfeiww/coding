@@ -71,6 +71,7 @@ void levelTraverse(TreeNode root) {
 #include <cstdio>
 #include <vector>
 #include <stack>
+#include <queue>
 #include <map>
 
 #ifndef CPP_TREE_H
@@ -95,11 +96,13 @@ namespace tree {
         int diameter = 0;
 
         // transverse
-        void preOrderNonRecur(TreeNode * node);
+        void preOrderNonRecur(TreeNode *node);
+
         // 需要背，写不对
-        void inOrderNonRecur(TreeNode * node);
+        void inOrderNonRecur(TreeNode *node);
+
         // 需要背，写不对
-        void postOrderNonRecur(TreeNode * node);
+        void postOrderNonRecur(TreeNode *node);
 
         // [543] 二叉树直径 easy
         int diameterOfBinaryTree(TreeNode *root);
@@ -108,6 +111,8 @@ namespace tree {
 
         // [剑指 Offer 68 - II.] 二叉树的最近公共祖先 easy  //做了好几次还是不记得
         TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q);
+        //第二次做，fine
+        TreeNode *lowestCommonAncestor2(TreeNode *root, TreeNode *p, TreeNode *q);
 
         // [剑指 Offer 34] 二叉树路径长等于某值 medium //对节点的操作的位置，体会纲领
         std::vector<std::vector<int>> paths;
@@ -151,7 +156,7 @@ namespace tree {
 
         int constructMaximumBinaryTreeFindMaxIdx(vector<int> &nums, int i, int j);
 
-        // [652] 寻找重复子树 m //子树相关-后序保存子树信息，树相同-树的序列化，c++ 容器的用法
+        // [652] 寻找重复子树 m //子树相关-后序保存子树信息，树相同-树的序列化，c++ 容器的用法 //第二次知道思路
         vector<TreeNode *> sub_roots;
         map<string, int> sub_trees;
 
@@ -161,48 +166,75 @@ namespace tree {
 
         // [1038] 从二叉搜索树到更大和树 easy // 最开始想错了，bst的性质
         int sum = 0;
-        TreeNode* bstToGst(TreeNode* root);
+
+        TreeNode *bstToGst(TreeNode *root);
 
         // [450] 删除二叉搜索树中的节点 medium //二叉树框架的运用，返回值的含义理解？
         TreeNode *deleteNode(TreeNode *root, int key);
 
         // [95] 不同的二叉搜索树 II m //hard, 递归回溯，浅拷贝问题
         vector<TreeNode *> generateTrees(int n);
+
         vector<TreeNode *> generateTrees(int s, int t);
 
         // [1373] 二叉搜索子树的最大键值和 hard //后序需要多个子树信息，就用struct返回值
         int max_sum = 0;
+
         int maxSumBST(TreeNode *root);
+
         vector<int> maxSumBSTIsBSTRecur(TreeNode *root);
 
         //[2049] 统计最高分的节点数目
-        map<int,int>scores;
+        map<int, int> scores;
         vector<vector<int>> tree;
-        int countHighestScoreNodes(vector<int>& parents);
+
+        int countHighestScoreNodes(vector<int> &parents);
+
         int countHighestScoreNodes(int node);
 
         // [1315] 祖父节点值为偶数的节点和 easy //dont panic, 遵循bt解题思路，节点需要做什么，前中后哪里
-        int sumEvenGrandparent(TreeNode* root);
+        int sumEvenGrandparent(TreeNode *root);
 
-        // [剑指 Offer II 047] 二叉树剪枝 easy //注意考虑边界case
-        TreeNode* pruneTree(TreeNode* root);
-        bool pruneTreeRecur(TreeNode* root);
+        // [剑指 Offer II 047] 二叉树剪枝 easy //注意考虑边界case+1
+        TreeNode *pruneTree(TreeNode *root);
 
-        //[剑指 Offer 55 - II] 平衡二叉树 easy
-        bool isBalanced(TreeNode* root);
+        bool pruneTreeRecur(TreeNode *root);
+
+        //[剑指 Offer 55 - II] 平衡二叉树 easy //第二次做想复杂了
+        bool isBalanced(TreeNode *root);
+
         bool is_balanced;
-        int isBalancedRecur(TreeNode* root);
+
+        int isBalancedRecur(TreeNode *root);
 
         // [offer 26] 树的子结构 //仔细审题，结构的定义，边界的定义 //不要考虑最简，先写对
-        bool isSubStructure(TreeNode* A, TreeNode* B);
-        bool isSubStructureSameTree(TreeNode* A, TreeNode* B);
+        bool isSubStructure(TreeNode *A, TreeNode *B);
+
+        bool isSubStructureSameTree(TreeNode *A, TreeNode *B);
 
         //[offer 27] 镜像二叉树 easy
-        TreeNode* mirrorTree(TreeNode* root);
+        TreeNode *mirrorTree(TreeNode *root);
 
-        //[offer 28] 对称二叉树判断 easy //自己没做出来
-        bool isSymmetric(TreeNode* root);
-        bool isSymmetric(TreeNode* left, TreeNode* right);
+        //[offer 28] 对称二叉树判断 easy //自己没做出来 //第二次做很简单
+        bool isSymmetric(TreeNode *root);
+
+        bool isSymmetric(TreeNode *left, TreeNode *right);
+
+
+
     };
+    class CBTInserter {
+    public:
+        TreeNode *root;
+        queue<TreeNode *> nodes;
 
+        // 1
+        // 2 3
+        CBTInserter(TreeNode *root);
+
+        int insert(int val);
+
+        TreeNode *get_root();
+
+    };
 }

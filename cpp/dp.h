@@ -12,6 +12,9 @@ namespace dp {
     //具备「最优子结构」，是否能够通过子问题的最值得到原问题的最值
     class dp {
     public:
+        // [264] 丑数 II medium //是自己想不出来的那种题 //dp
+        int nthUglyNumber(int n);
+
         // [剑指 Offer 47] 礼物的最大价值
         int maxValue(std::vector<std::vector<int>>& grid);
         // [剑指 Offer 46] 把数字翻译成字符串 //dp简单，更像是细节题
@@ -30,6 +33,15 @@ namespace dp {
         bool isMatch(string s, string p);
         //[offer 60] n个骰子点数 // 看到提示了/ //dp的循环边界，细节
         vector<double> dicesProbability(int n);
+        //[5] 最长回文子串 m //debug才做对 //len = j - i + 1
+        string longestPalindrome(string s);
+        //[55] jump game //dp 剪枝不然tle //greed
+        bool canJump(vector<int>& nums);
+        bool canJump(vector<int>& nums, int greed);
+        //[44] regex e //dp, 有个复杂情况转移方程想少情况了
+        bool isMatch2(string s, string p);
+        //[174] 地下城游戏 h //逆向dp消除一个因子的影响，没想到
+        int calculateMinimumHP(vector <vector<int>> &dungeon);
 
 
     };

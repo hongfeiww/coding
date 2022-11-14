@@ -9,15 +9,17 @@ using namespace std;
 #include <string>
 #include <vector>
 
+//Definition for singly-linked list.
+struct ListNode {
+    int val;
+    ListNode *next;
+
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
 class details {
 public:
-    //Definition for singly-linked list.
-    struct ListNode {
-        int val;
-        ListNode *next;
 
-        ListNode(int x) : val(x), next(NULL) {}
-    };
 
 public:
     std::vector<std::string> simplifiedFractions(int n);
@@ -26,16 +28,24 @@ private:
     bool isCoPrime(int m_, int n_);
 
 public:
-    // [264] 丑数 II medium //是自己想不出来的那种题
-    int nthUglyNumber(int n);
 
+    /////* numbers */
+    // [7] 整数反转 e //case情况分类
+    int reverse(int x);
+    // [8] atoi //case情况，long long
+    int myAtoi(string s);
     // [offer 29]
     vector<int> spiralOrder(vector<vector<int>> &matrix);
 
+    /////* strings */
+    //[01.09] 字符串轮转 e//这种旋转都是s+s,string的func
+    bool isFlipedString(string s1, string s2);
     //[offer 16] 实现pow(x,n) //快速幂 //细节 //long long
     double myPow(double x, int n);
 
     /* /前缀和/差分数据 */
+    // https://zhuanlan.zhihu.com/p/301509170
+    // diff[i] 就是 nums[i] 和 nums[i-1] 之差，想对区间 nums[i..j] 的元素全部加 3，那么只需要让 diff[i] += 3，然后再让 diff[j+1] -= 3
 
     // [1109] 航班统计预定 m
     vector<int> corpFlightBookings(vector<vector<int>> &bookings, int n);
@@ -44,11 +54,14 @@ public:
     vector<int> constructArr(vector<int> &a);
 
 
-    /* stack */
+    /////* stack */
+    // 单调栈/队列是为了快速获取离某个元素最近的更大/小元素
     //[735] asteroids collision m //没想到用stack，先考虑写对了，不用优化
     vector<int> asteroidCollision(vector<int>& asteroids);
+    //[42] 接雨水 h //只用了一个单调stack，没有考虑到所有情况
+    int trap(vector<int> &height);
 
-    /* linkedlist */
+    /////* linkedlist */
 
     // [offer 06] 从尾到头打印linkedlist easy //不紧张就会做
     vector<int> reversePrint(ListNode *head);
@@ -56,7 +69,7 @@ public:
     //[offer 24] easy reverse link list
     ListNode *reverseList(ListNode *head);
 
-    /* pointers */
+    ///* pointers */
     //双指针技巧主要分为两类：左右指针和快慢指针
     //对于单链表来说，大部分技巧都属于快慢指针
     /* 滑动窗口算法框架 */
@@ -84,6 +97,9 @@ public:
     //[offer 21] 调整数组顺序使奇数位于偶数前面 easy // 双指针模版
     vector<int> exchange(vector<int> &nums);
 
+    //[904] 水果成篮 m // 实现简单
+    int totalFruit(vector<int>& fruits);
+
     //[532] 数组中的k-diff数对 medium //有点不美观，边界case要考虑
     int findPairs(vector<int> &nums, int k);
 
@@ -96,10 +112,41 @@ public:
     //[167] twosum2 easy
     vector<int> twoSum(vector<int>& numbers, int target);
 
+    //[剑指 Offer 48] 最长不含重复字符的子字符串 // 第二次写不会
+    int lengthOfLongestSubstring(string s);
+
+    // [剑指 Offer2 15] 字符中所有变位词 m //map中不存在key的操作会有影响
+    vector<int> findAnagrams(string s, string p);
+    //[30] 串联所有单词的子串 m//问题的升级，直接暴力forfor，shrink的条件有问题
+    vector<int> findSubstring(string s, vector<string>& words);
+
+    //[76] 最小覆盖子串 h //map+cnt 先if 再while
+    string minWindow(string s, string t);
+
+    //[870] 优势洗牌 m //思路想对了，具体实现细节不会// swap不对但是看很久想不出来哪里不对
+    vector<int> advantageCount(vector<int>& nums1, vector<int>& nums2);
+
+    //[1700] 无法吃午餐的学生数量 e //easy还得debug，ij写反了之类的 //完全按照题目写的，逻辑可以抽象简化
+    int countStudents(vector<int>& students, vector<int>& sandwiches);
+
+    //[1662] 检查字符串是否相等 e //if else的简化逻辑
+    bool arrayStringsAreEqual(vector <string> &word1, vector <string> &word2);
+
+    //[1668] 最大重复子字符串 e //整体简单，长度的思路是根据另一道题的经验，更新结果的触发逻辑bug
+    int maxRepeating(string sequence, string word);
+
+    //[142] 环形离岸表2 m //初始指针位置bug，数学计算看了答案才会
+    ListNode *detectCycle(ListNode *head);
 
 
-    /* searching */
+    /////* Priority Queue */
+    // [offer2 061] 和最小的k个数对 m // 方法没想出来，BFS的思想 //优化也没想出来，避免重复的操作
+    vector <vector<int>> kSmallestPairs(vector<int> &nums1, vector<int> &nums2, int k);
 
+
+    /////* searching */
+    /* Binary Search */
+    //对于序列中的相同元素，如果排序之后它们的相对位置没有发生改变，则称该排序算法为「稳定排序」，反之则为「不稳定排序」
     // [704] BS //需要背下来
     int search(vector<int> &nums, int target);
 
@@ -115,6 +162,26 @@ public:
 
     // [offer 11] 旋转数组的最小数字 easy //完全不会
     int minArray(vector<int> &numbers);
+
+    //[offer2 73] 狒狒喜欢吃香蕉 m //方法看提示了，边界不明白
+    int minEatingSpeed(vector<int>& piles, int h);
+    int minEatingSpeedBinarySearch(vector<int>& piles, int s, int e, int h);
+    int minEatingSpeedTimeConsumed(vector<int>& piles, int k);
+
+    /* Quick Sort*/ //快速排序就是一个二叉树的前序遍历 //快速排序的过程是一个构造二叉搜索树的过程
+    void quick_sort(vector<int> &nums, int l, int r);
+    void quick_sort_desc(vector<int> &nums, int l, int r);
+
+    //[215] 第k个最大元素 //需要复习
+    int findKthLargest(vector<int>& nums, int k);
+    void findKthLargestSort(vector<int>& nums, int i, int j, int k);
+
+    /* Merge Sort*/ //合并排序关键在于合并的操作
+    //[23] merge sorted linked-list m //merge sort
+    ListNode* mergeKLists(vector<ListNode*>& lists);
+    ListNode* mergeKListsMergeSort(vector<ListNode*>& lists, int l, int r);
+
+
 
 };
 

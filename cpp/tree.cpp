@@ -52,13 +52,13 @@ namespace tree {
     }
 
     void Tree::postOrderNonRecur(TreeNode *root) {
-        vector<int>res;
+        vector<int> res;
         if (root == nullptr) {
             return;
         }
-        stack<TreeNode*>s;
-        TreeNode* node = root;
-        TreeNode* prev = nullptr;
+        stack<TreeNode *> s;
+        TreeNode *node = root;
+        TreeNode *prev = nullptr;
         while (!s.empty() || node != nullptr) {
             if (node != nullptr) {
                 s.emplace(node);
@@ -119,6 +119,22 @@ namespace tree {
             return left;
         }
         return root;
+    }
+
+    TreeNode *Tree::lowestCommonAncestor2(TreeNode *root, TreeNode *p, TreeNode *q) {
+        if (root == nullptr) {
+            return nullptr;
+        }
+        if (root->val == p->val || root->val == q->val) {
+            return root;
+        }
+        TreeNode *left = lowestCommonAncestor2(root->left, p, q);
+        TreeNode *right = lowestCommonAncestor2(root->right, p, q);
+        if (left && right) {
+            return root;
+        }
+        return left ? left : right;
+
     }
 
     std::vector<std::vector<int>> Tree::pathSum(TreeNode *root, int target) {
@@ -513,33 +529,72 @@ namespace tree {
         return isSubStructureSameTree(A->left, B->left) && isSubStructureSameTree(A->right, B->right);
     }
 
-    TreeNode* Tree::mirrorTree(TreeNode* root) {
+    TreeNode *Tree::mirrorTree(TreeNode *root) {
         if (root == nullptr) {
             return root;
         }
-        TreeNode* left =  mirrorTree(root->left);
-        TreeNode* right =  mirrorTree(root->right);
+        TreeNode *left = mirrorTree(root->left);
+        TreeNode *right = mirrorTree(root->right);
         root->left = right;
         root->right = left;
         return root;
     }
 
-    bool Tree::isSymmetric(TreeNode* root) {
+    bool Tree::isSymmetric(TreeNode *root) {
         if (root == nullptr) {
             return true;
         }
         return isSymmetric(root->left, root->right);
 
     }
-    bool Tree::isSymmetric(TreeNode* left, TreeNode* right) {
+
+    bool Tree::isSymmetric(TreeNode *left, TreeNode *right) {
         if (left == nullptr && right == nullptr) {
             return true;
         }
         if (left == nullptr || right == nullptr) {
             return false;
         }
-        return isSymmetric(left->left, right->right) && isSymmetric(left->right, right->left) && (left->val == right->val);
+        return isSymmetric(left->left, right->right) && isSymmetric(left->right, right->left) &&
+               (left->val == right->val);
     }
 
+    CBTInserter::CBTInserter(TreeNode *root) {
+        this->root = root;
+        nodes.emplace(root);
+        while (!nodes.empty()) {
+            int size = nodes.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode *node = nodes.front();
+                if (node->left != nullptr) {
+                    nodes.emplace(node->left);
+                }
+                if (node->right != nullptr) {
+                    nodes.emplace(node->right);
+                }
+                if (node->left == nullptr || node->right == nullptr) {
+                    return;
+                }
+                nodes.pop();
+            }
+        }
+    }
+
+    int CBTInserter::insert(int val) {
+        TreeNode *node = new TreeNode(val);
+        TreeNode *parent = nodes.front();
+        if (parent->left == nullptr) {
+            parent->left = node;
+        } else {
+            parent->right = node;
+            nodes.pop();
+        }
+        nodes.emplace(node);
+        return parent->val;
+    }
+
+    TreeNode *CBTInserter::get_root() {
+        return this->root;
+    }
 
 }

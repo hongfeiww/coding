@@ -146,40 +146,109 @@ namespace graph {
         return true;
     }
 
-}
-
-vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-    // [ai, bi] b -> a
-    vector<int> indegree(numCourses,0);
-    vector<vector<int>> graph(numCourses,vector<int>(0));
-    for (vector<int>& prerequisite: prerequisites) {
-        indegree[prerequisite[0]]++;
-        graph[prerequisite[1]].push_back(prerequisite[0]);
-    }
-    queue<int> q;
-    for (int i = 0; i < numCourses; i++) {
-        if (indegree[i] == 0) {
-            q.emplace(i);
+    vector<int> Graph::findOrder(int numCourses, vector<vector<int>> &prerequisites) {
+        // [ai, bi] b -> a
+        vector<int> indegree(numCourses, 0);
+        vector<vector<int>> graph(numCourses, vector<int>(0));
+        for (vector<int> &prerequisite: prerequisites) {
+            indegree[prerequisite[0]]++;
+            graph[prerequisite[1]].push_back(prerequisite[0]);
         }
-    }
-
-    vector<int> res;
-    while (!q.empty()) {
-        int course = q.front();
-        q.pop();
-        res.push_back(course);
-        for (int neighbour: graph[course]) {
-            --indegree[neighbour];
-            if (indegree[neighbour] == 0) {
-                q.emplace(neighbour);
+        queue<int> q;
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) {
+                q.emplace(i);
             }
         }
+
+        vector<int> res;
+        while (!q.empty()) {
+            int course = q.front();
+            q.pop();
+            res.push_back(course);
+            for (int neighbour: graph[course]) {
+                --indegree[neighbour];
+                if (indegree[neighbour] == 0) {
+                    q.emplace(neighbour);
+                }
+            }
+        }
+        if (res.size() != numCourses) {
+            res.clear();
+        }
+        return res;
+
     }
-    if (res.size() != numCourses) {
-        res.clear();
+
+    int Graph::kSimilarity(string s1, string s2) {
+        if (s1 == s2) {
+            return 0;
+        }
+        unordered_set<string> str_set;
+        str_set.insert(s1);
+        queue<string> q;
+        q.emplace(s1);
+        int res = 0;
+        while (!q.empty()) {
+            int q_size = q.size();
+            res++;
+            while (q_size > 0) {
+                string str = q.front();
+                q.pop();
+                int i = 0;
+                while (str[i] == s2[i] && i < s2.size()) {
+                    i++;
+                }
+                if (i >= s2.size()) {
+                    return res - 1;
+                }
+                for (int j = i + 1; j < str.size(); j++) {
+                    if (str[j] == s2[i]) {
+                        swap(str[j], str[i]);
+                        if (!str_set.count(str)) {
+                            q.emplace(str);
+                            str_set.insert(str);
+                        }
+                        swap(str[i], str[j]);
+                    }
+                }
+                q_size--;
+            }
+        }
+        return res;
     }
-    return res;
+
+    vector <vector<int>> Graph::floodFill(vector <vector<int>> &image, int sr, int sc, int color) {
+        queue <pair<int, int>> q;
+        vector <vector<int>> res(image);
+        vector <pair<int, int>> dirs = {{0,  1},
+                                        {0,  -1},
+                                        {1,  0},
+                                        {-1, 0}};
+        int m = image.size();
+        int n = image[0].size();
+        q.push({sr, sc});
+        int old_color = image[sr][sc];
+        image[sr][sc] = -1;
+        while (!q.empty()) {
+            pair<int, int> node = q.front();
+            //cout << node.first << node.second << endl;
+            q.pop();
+            res[node.first][node.second] = color;
+            for (const auto &dir: dirs) {
+                int i = node.first + dir.first;
+                int j = node.second + dir.second;
+                if (i >= 0 && i < m && j >= 0 && j < n && image[i][j] == old_color) {
+                    q.push({i, j});
+                    image[i][j] = -1;
+                }
+            }
+        }
+        return res;
+    }
 
 }
+
+
 
 
