@@ -540,23 +540,63 @@ namespace tree {
         return root;
     }
 
-    bool Tree::isSymmetric(TreeNode *root) {
-        if (root == nullptr) {
-            return true;
-        }
-        return isSymmetric(root->left, root->right);
-
+    bool Tree:: isSymmetric(TreeNode* root) {
+        return !root || isSymmetric(root->left, root->right);
     }
 
-    bool Tree::isSymmetric(TreeNode *left, TreeNode *right) {
-        if (left == nullptr && right == nullptr) {
+    bool Tree:: isSymmetric(TreeNode* left, TreeNode* right) {
+        if (!left && !right) {
             return true;
         }
-        if (left == nullptr || right == nullptr) {
+        if (!left || !right) {
             return false;
         }
-        return isSymmetric(left->left, right->right) && isSymmetric(left->right, right->left) &&
-               (left->val == right->val);
+
+        return left->val == right->val && isSymmetric(left->left, right->right) && isSymmetric(left->right, right->left);
+    }
+
+    TreeNode* Tree::removeLeafNodes(TreeNode* root, int target) {
+        if (!root) {
+            return root;
+        }
+        TreeNode* left = removeLeafNodes(root->left, target);
+        TreeNode* right = removeLeafNodes(root->right, target);
+        if (!left && !right && root->val == target) {
+            return nullptr;
+        }
+        root->left = left;
+        root->right = right;
+        return root;
+    }
+
+    bool Tree::evaluateTree(TreeNode* root) {
+        if (!root) {
+            return true;
+        }
+        if (root->val <= 1) {
+            return (root->val == 1);
+        }
+        bool left = evaluateTree(root->left);
+        bool right = evaluateTree(root->right);
+        return root->val == 2 ? (left || right) : (left && right);
+    }
+
+    int Tree::maxAncestorDiff(TreeNode* root) {
+        maxAncestorDiffExtre(root);
+        return res;
+    }
+
+    pair<int,int> Tree::maxAncestorDiffExtre(TreeNode* root) {
+        if (!root) {
+            return {1e5+1, -1};
+        }
+        auto left = maxAncestorDiffExtre(root->left);
+        auto right = maxAncestorDiffExtre(root->right);
+        int min_val = min(left.first, right.first);
+        int max_val = max(left.second, right.second);
+        res = min_val == 1e5+1 ? res : max(res, abs(root->val - min_val));
+        res = max_val == -1 ? res : max(res, abs(root->val - max_val));
+        return {min(min_val,root->val), max(max_val,root->val)};
     }
 
     CBTInserter::CBTInserter(TreeNode *root) {

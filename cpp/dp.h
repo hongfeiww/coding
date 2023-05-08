@@ -42,6 +42,25 @@ namespace dp {
         bool isMatch2(string s, string p);
         //[174] 地下城游戏 h //逆向dp消除一个因子的影响，没想到
         int calculateMinimumHP(vector <vector<int>> &dungeon);
+        //[offer 2.102] 加减的目标和 //背包问题但是我的思路不同，tle了需要简化
+        int findTargetSumWays(vector<int>& nums, int target);
+        //[72] 编辑距离 h //做过好几次了记住了，dp方程推理难
+        int minDistance(string word1, string word2);
+        int minimumDeletions(string s);
+        //[1638] 统计只差一个字符的子串数量 m// 思路没想出来，拆解问题就像merge sort一样，拆成的小问题是已知问题
+        int countSubstrings(string s, string t);
+        //[1626] 无矛盾最佳球队 m //思路想出来了/ 实现上：cmp的写法；同时sort两个vector
+        int bestTeamScore(vector<int>& scores, vector<int>& ages);
+        //[1147] 段式回文 h //看到双指针之后思路get简单，但是实现很复杂写不出来，字符串内sub的复杂比较可以拷贝出来单独比较
+        int longestDecomposition(string text);
+        //[343] 整数拆分 m //剪绳子问题，思路记不住，一直觉得哪里怪怪的
+        int integerBreak(int n);
+        //[offer2 091] painting the house easy //思路和实现都简单
+        int minCost(vector<vector<int>>& costs);
+        //[offer2 098] path cnt easy //思路和实现都简单
+        int uniquePaths(int m, int n);
+        //[1043] 分割数组得到最大和 m //没想出来，是一种类型，以末尾为结尾不断延长
+        int maxSumAfterPartitioning(vector<int> &arr, int k);
 
 
     };

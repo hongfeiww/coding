@@ -21,6 +21,7 @@ using namespace std;
 // 【BFS】
 // 二叉树层序遍历->多叉树层序遍历->BFS
 //问题的本质就是让你在一幅「图」中找到从起点 start 到终点 target 的最近距离
+//得到一条路径 or 得到所有情况
 //边权重一样用BFS，其核心在于使用队列“先进先出”的特点，能快速找到最靠近起始节点的目标节点
 //对于二维网格中的最短路问题，我们一般可以使用广度优先搜索 + 队列的方法解决。
 //BFS算法的核心就是访问记录的保存，理解了访问记录的保存方法，就掌握了BSF的核心。
@@ -134,6 +135,10 @@ using namespace std;
 
 //【二分图】
 // bfs dfs 染色法判断是否是二分图
+
+
+//union
+//
 #include<vector>
 
 namespace graph {
@@ -157,5 +162,38 @@ namespace graph {
 
         //[733] 图像渲染 e //简单bfs，visited到底怎么用，忘记了
         vector <vector<int>> floodFill(vector <vector<int>> &image, int sr, int sc, int color);
+
+        // [1971] 是否存在路径 e //最基础bfs dfs
+        bool validPath(int n, vector<vector<int>>& edges, int source, int destination);
+        vector<bool> visited;
+        vector<vector<int>> graph;
+        bool validPathDFS(int source, int destination) ;
+        bool validPathBFS(int source, int destination);
+
+        //[994] 腐烂的橘子 m //基础bfs，visited位置用错了，同一个点可能是上一层多个点的邻居会多次入q //边界case
+        int orangesRotting(vector<vector<int>>& grid);
+
+        //[1129] 颜色交替的最短路径 m //bfs进阶，需要复杂一层的结构记录信息，框架不变 //c++的bug找了很久，引用的问题heap-use-after-free
+        vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges);
+
+        //[207] 课程表 e //topo model,没debug，做过两次
+        bool canFinish(int numCourses, vector<vector<int>>& prerequisites);
+
+
+        //[offer.2 111] m //思路简单bfs，但是debug了好久，vector的用法，
+        vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries);
+
+        //[1096] 花括号展开2 h //思路没想到，回溯所有情况首先是拆解情况，是一个多叉树// bfs的本质就是树的遍历
+        set<string> res_str;
+        vector<string> braceExpansionIIBFS(string expression);
+            //普通的递归，处理子问题
+        void braceExpansionIIDFS(string expression);
+
+        //[1615] 最大网络秩 e //暴力枚举，思路简单
+        int maximalNetworkRank(int n, vector<vector<int>>& roads);
+
+        //[542] 矩阵 m //模版dfs，思路简单
+        vector<vector<int>> updateMatrix(vector<vector<int>>& mat);
+
     };
 }

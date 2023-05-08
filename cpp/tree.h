@@ -220,6 +220,17 @@ namespace tree {
 
         bool isSymmetric(TreeNode *left, TreeNode *right);
 
+        //[1325] 删除target值的叶子结点 e //
+        TreeNode* removeLeafNodes(TreeNode* root, int target);
+
+        //[2331] easy // demo
+        bool evaluateTree(TreeNode* root);
+
+        //[1026] 节点最大diff e //demo
+        int maxAncestorDiff(TreeNode* root);
+        int res = 0;
+        pair<int,int> maxAncestorDiffExtre(TreeNode* root);
+
 
 
     };

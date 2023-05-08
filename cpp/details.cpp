@@ -228,6 +228,114 @@ ListNode *details::reverseList(ListNode *head) {
     return new_head;
 }
 
+ListNode* details::mergeInBetween(ListNode* list1, int a, int b, ListNode* list2) {
+    ListNode* res_head = list1;
+    int i = 0;
+    while (i < a-1) { //debug
+        list1 = list1->next;
+        i++;
+    }
+    ListNode* cut_head = list1;
+    while (i <= b) {
+        list1 = list1->next;
+        i++;
+    }
+    //cout<<cut_head->val<<endl;
+    cut_head->next = list2;
+    while (list2->next) {
+        list2 = list2->next;
+    }
+    list2->next = list1;
+    return res_head;
+
+}
+
+vector<int> details::nextLargerNodes(ListNode* head) {
+    stack<pair<int,int>>s;
+    vector<int>res(1e4, 0);
+    int idx = 0;
+    while (head) {
+        int val = head->val;
+        while (!s.empty() && val > s.top().first) {
+            res[s.top().second] = val;
+            s.pop();
+        }
+        s.push({val, idx});
+        idx++;
+        head = head->next;
+    }
+    res.erase(res.begin()+idx, res.end());
+    return res;
+}
+
+ListNode* details::addTwoNumbers(ListNode* l1, ListNode* l2) {
+    stack<int>s1;
+    stack<int>s2;
+    while (l1) {
+        s1.push(l1->val);
+        l1 = l1->next;
+    }
+    while (l2) {
+        s2.push(l2->val);
+        l2 = l2->next;
+    }
+    ListNode* pre_head = new ListNode(0);
+    int over = 0;
+    while (!s1.empty() && !s2.empty()) {
+        int bit = s1.top() + s2.top() + over;
+        s1.pop();
+        s2.pop();
+        over = bit / 10;
+        bit %= 10;
+        ListNode* node = new ListNode(bit);
+        node->next = pre_head->next;
+        pre_head->next = node;
+    }
+    s1 = s1.empty() ? s2 : s1;
+    while (!s1.empty()) {
+        int bit = s1.top() + over;
+        s1.pop();
+        over = bit / 10;
+        bit %= 10;
+        ListNode* node = new ListNode(bit);
+        node->next = pre_head->next;
+        pre_head->next = node;
+    }
+    if (over > 0) { //debug
+        ListNode* node = new ListNode(over);
+        node->next = pre_head->next;
+        pre_head->next = node;
+    }
+    return  pre_head->next;
+
+
+}
+
+ListNode* details::insertionSortList(ListNode* head) {
+    ListNode* res = new ListNode(0, head);
+    ListNode* head_next;
+    ListNode* head_pre = res; //debug
+    while (head) {
+        ListNode* cur = res;
+        head_next = head->next;
+        bool flag = false;
+        while (cur->next != head) {
+            if (head->val < cur->next->val) {
+                head_pre->next = head_next;
+                head->next = cur->next;
+                cur->next = head;
+                flag = true;
+                break;
+            }
+            cur = cur->next;
+        }
+        head_pre = flag ? head_pre : head; //debug
+        head = head_next;
+        // cout<<head->val<<endl;
+    }
+    return res->next;
+}
+
 vector<int> details::corpFlightBookings(vector<vector<int>> &bookings, int n) {
     vector<int> res(n);
     vector<int> diff(n + 1);
@@ -278,7 +386,7 @@ int details::search_left(vector<int> &nums, int target) {
             j = mid - 1;
         }
     }
-    return i < nums.size() && nums[i] == target ? j : -1;
+    return i < nums.size() && nums[i] == target ? i : -1;
 }
 
 int details::search_right(vector<int> &nums, int target) {
@@ -296,6 +404,20 @@ int details::search_right(vector<int> &nums, int target) {
         }
     }
     return j >= 0 && nums[j] == target ? j : -1;
+}
+
+int details::firstBadVersion(int n) {
+    int i = 1;
+    int j = n;
+    while (i <= j) {
+        int mid = i + (j - i)/2;
+//        if (isBadVersion(mid)) {
+//            j = mid - 1;
+//        } else {
+//            i = mid + 1;
+//        }
+    }
+    return i;
 }
 
 bool details::searchMatrix(vector<vector<int>> &matrix, int target) {
@@ -375,6 +497,25 @@ vector<int> details::exchange(vector<int> &nums) {
     return nums;
 }
 
+int details::minimumRecolors(string blocks, int k) {
+    int res = k;
+    int cnt = 0;
+    int i = 0;
+    int j = 0;
+    while (j < blocks.size()) {
+        if (blocks[j] == 'W') {
+            cnt++;
+        }
+        j++;
+        while (j - i > k) {
+            cnt += blocks[i]=='W'? -1:0;
+            i++;
+        }
+        if (j - i == k) res = min(cnt,res);
+
+    }
+    return res;
+}
 int details::totalFruit(vector<int> &fruits) {
     int res = 0;
     int cnt = 0;
@@ -396,6 +537,30 @@ int details::totalFruit(vector<int> &fruits) {
         if (fruit_bucket.size() <= 2) {
             res = max(res, cnt);
         }
+    }
+    return res;
+}
+
+int totalFruit(vector<int> &fruits) { //2nd
+    unordered_map<int, int> bucket;
+    int cate = 0;
+    int i = 0;
+    int j = 0;
+    int res = 0;
+    while (j < fruits.size()) {
+        if (bucket[fruits[j]] == 0) {
+            cate++;
+        }
+        bucket[fruits[j]]++;
+        j++; //debug
+        while (i < j && cate > 2) {
+            bucket[fruits[i]]--;
+            if (bucket[fruits[i]] == 0) {
+                cate--;
+            }
+            i++; //debug
+        }
+        res = max(res, j - i);
     }
     return res;
 }
@@ -424,6 +589,27 @@ int details::minEatingSpeedTimeConsumed(vector<int> &piles, int k) {
     for (int pile: piles) {
         res += pile / k;
         res += pile % k > 0 ? 1 : 0;
+    }
+    return res;
+}
+
+vector<string> details::sortPeople(vector<string>& names, vector<int>& heights) {
+    int n = names.size();
+    vector<int>idx(n, 0);
+    for (int i = 0; i < n; i++) {
+        idx[i] = i;
+    }
+
+    auto comp = [&heights](int i, int j) -> bool {
+        return heights[i] > heights[j];
+    };
+
+    sort(idx.begin(), idx.end(), comp);
+    // cout<<idx[0]<<endl;
+    vector<string>res(n);
+    for (int i = 0; i < n; i++) {
+        //cout<<idx[i]<<endl;
+        res[i] = names[idx[i]];
     }
     return res;
 }
@@ -463,8 +649,319 @@ vector<int> details::spiralOrder(vector<vector<int>> &matrix) {
     return res;
 }
 
+bool details::isMagic(vector<int> &target) {
+    vector<int> cards;
+    int i = 0;
+    for (i = 0; i < target.size(); i++) {
+        cards.push_back(i + 1);
+    }
+    isMagicShuffle(cards);
+    int k = isMagicGetPrefix(cards, target);
+    if (!k) {
+        return false;
+    }
+    cards.erase(cards.begin(), cards.begin() + k);
+    target.erase(target.begin(), target.begin() + k);
+    while (cards.size() > 0) {
+        //cout<<cards.size()<<endl;
+        isMagicShuffle(cards);
+        i = 0;
+        while (i < k && i < cards.size()) {
+            if (cards[i] != target[i]) {
+                return false;
+            }
+            i++;
+        }
+        cards.erase(cards.begin(), cards.begin() + i);
+        target.erase(target.begin(), target.begin() + i);
+    }
+    return true;
+}
 
-bool isFlipedString(string s1, string s2) {
+void details::isMagicShuffle(vector<int> &target) {
+    vector<int> even;
+    for (int i = 1; i < target.size(); i += 2) {
+        even.push_back(target[i]);
+    }
+    for (int i = 0; i < target.size(); i += 2) {
+        even.push_back(target[i]);
+    }
+
+    target.assign(even.begin(), even.end());
+}
+
+int details::isMagicGetPrefix(vector<int> &cards, vector<int> &target) {
+    int i = 0;
+    int res = 0;
+    while (i < cards.size() && cards[i] == target[i]) {
+        res++;
+        i++;
+    }
+    return res;
+}
+
+int details::countNicePairs(vector<int>& nums) {
+    unordered_map<int, int>diff_cnt;
+    int res = 0; //init debug
+    int mod = 1e9 + 7;
+    for (int num : nums) {
+        int rev_diff = num - countNicePairsGetRev(num);
+        //cout << diff_cnt[rev_diff] <<endl;
+        res = (res + diff_cnt[rev_diff]) % mod;
+        diff_cnt[rev_diff]++;
+    }
+    return res;
+}
+int details::countNicePairsGetRev(int& nums) {
+    int res = 0;
+    while (nums > 0) {
+        int n = nums % 10;
+        // cout << nums <<endl;
+        nums /= 10; //debug
+        res = res * 10 + n;
+    }
+    // cout << res <<endl;
+    return res;
+}
+
+vector<int> details::findingUsersActiveMinutes(vector<vector<int>>& logs, int k) {
+    unordered_map<int,unordered_set<int>> user_action;
+    for (vector<int>& log : logs) {
+        user_action[log[0]].insert(log[1]);
+    }
+    vector<int>res(k, 0);
+    for (auto p : user_action) {
+        res[p.second.size()-1]++;
+    }
+    return res;
+}
+
+vector<string> details::getFolderNames(vector<string>& names) {
+
+    unordered_map<string, int> name_cnt;
+    for (auto& name : names) {
+        if (name_cnt.count(name) > 0) {
+            int k = name_cnt[name];
+            while (name_cnt.count(name+"("+to_string(k)+")") > 0) {
+                k++;
+            }
+            name_cnt[name] = k+1;
+            name +="("+to_string(k)+")";
+        }
+        name_cnt[name] = 1;
+    }
+    return names;
+}
+
+int details::calculate(string s) {
+    int i = 0;
+    return calculate(s, i);
+}
+
+int details::calculate(string& s, int& i) {
+    int n = 0;
+    char pre_sign = '+';
+    stack<int> num;
+    for (;i < s.size(); i++) {
+
+        if (isdigit(s[i])) {
+            n = n * 10 + (s[i] - '0');
+        }
+        if (s[i] == '(') {
+            i++;
+            n = calculate(s, i);
+        }
+        if (s[i] != ' ' && !isdigit(s[i]) || i == s.size() - 1) {
+            switch (pre_sign) {
+                case '+':
+                    num.push(n);
+                    break;
+                case '-':
+                    num.push(-n);
+                    break;
+                case '*':
+                    n *= num.top();
+                    num.pop();
+                    num.push(n);
+                    break;
+                case '/':
+                    n = num.top() / n;
+                    num.pop();
+                    num.push(n);
+                    break;
+            }
+            pre_sign = s[i];
+            n = 0;
+        }
+        if (s[i] == ')') {
+            i++; //debug
+            break;
+        }
+    }
+    int res = 0;
+    while (!num.empty()) {
+        res += num.top();
+        num.pop();
+    }
+    return res;
+}
+vector<bool> details::checkArithmeticSubarrays(vector<int>& nums, vector<int>& l, vector<int>& r) {
+    vector<bool>res(l.size(), true);
+    for (int i = 0; i < l.size(); i++) {
+        int head = l[i];
+        int tail = r[i];
+        if (head == tail) {
+            continue;
+        }
+        int min_val = nums[head];
+        int max_val = nums[head];
+        for (int j = head; j <= tail; j++) {
+            min_val = min(nums[j], min_val);
+            max_val = max(nums[j], max_val);
+        }
+        // cout<<min_val<<max_val<<endl;
+        if (max_val == min_val) {
+            continue;
+        }
+        int d = (max_val - min_val) / (tail - head);
+
+        if ((max_val - min_val) % (tail - head) != 0) {
+            res[i] = false;
+            continue;
+        }
+        vector<bool>bucket(tail - head + 1, false);
+        for (int j = head; j <= tail; j++) {
+            int pos = (nums[j] - min_val) / d;
+            if ((nums[j] - min_val) % d != 0 || pos >= bucket.size() || bucket[pos]) {
+                res[i] = false;
+                break;
+            }
+            bucket[pos] = true;
+        }
+    }
+    return res;
+}
+
+bool details::isRobotBounded(string instructions) {
+    vector<int>person = {0,0,0}; // pos and direction
+    auto step = [&]() -> void {switch (person[2]) {
+        case 0 :
+            person[1]++;
+            break;
+        case 1 :
+            person[0]++;
+            break;
+        case 2 :
+            person[1]--;
+            break;
+        case 3 :
+            person[0]--;
+            break;
+    }};
+    for (const char& ch : instructions) {
+        switch (ch) {
+            case 'G':
+                step();
+                break;
+            case 'R':
+                person[2] = (person[2] + 1) % 4;
+                break;
+            case 'L':
+                person[2] = (person[2] + 3) % 4;
+                break;
+
+        }
+        //cout<<ch<<person[0]<<person[1]<<person[2]<<endl;
+
+    }
+    return (person[0] == 0 && person[1] == 0) || person[2] > 0;
+
+}
+
+
+bool details::isNumber(string s) {
+    auto is_integer = [&](string str) -> bool {
+        if (str.size() == 0) {
+            return false;
+        }
+
+        if (str[0] == '+' || str[0] == '-') {
+            str = str.substr(1, str.size() - 1);
+        }
+        int i = 0;
+        while (i < str.size()) {
+            if (!isdigit(str[i])) {
+                return false;
+            }
+            i++;
+        }
+        return str.size() >= 1;
+    };
+    auto is_float = [&](string str) -> bool { //debug
+        if (str.size() == 0) {
+            return false;
+        }
+        int i = 0;
+        if (str[0] == '+' || str[0] == '-') {
+            i++;
+        }
+        bool dot_flag = false;
+        bool num_flag = false;
+        while (i < str.size()) {
+            if (s[i] == '.') {
+                if (dot_flag) {
+                    return false;
+                }
+                dot_flag = true;
+            } else if (!isdigit(str[i])) {
+                return false;
+            } else {
+                num_flag = true;
+            }
+            i++;
+        }
+        return dot_flag && num_flag;
+    };
+    int i = 0;
+    while (i < s.size() && s[i] == ' ') {
+        i++;
+    }
+    s = s.substr(i, s.size() - i);
+    i = s.size() - 1;
+    while (i >= 0  && s[i] == ' ') {
+        i--;
+    }
+    s = s.substr(0, i + 1);
+    i = 0;
+
+    while (i < s.size()) {
+        if (s[i] == 'e' || s[i] == 'E') {
+            break;
+        }
+        i++;
+    }
+    //cout<<s <<i<<endl;
+    if (i >= s.size()) {
+        return is_integer(s) || is_float(s);
+    } else {
+        return (is_integer(s.substr(0,i)) || is_float(s.substr(0,i))) && is_integer(s.substr(i + 1,s.size()-i-1));
+    }
+
+}
+
+int details::smallestEvenMultiple(int n) {
+    int res = n * 2;
+    int m = max(n, 2);
+    n = min(n, 2);
+    while (m % n != 0) {
+        int tmp = m % n;
+        m = n;
+        n = tmp;
+    }
+    return res / n;
+
+}
+bool details::isFlipedString(string s1, string s2) {
     if (s1.size() != s2.size()) {
         return false;
     }
@@ -490,6 +987,58 @@ double details::myPow(double x, int n) {
     return n > 0 ? res : 1 / res;
 }
 
+string details::evaluate(string s, vector<vector<string>> &knowledge) {
+    unordered_map<string, string> dict;
+    for (vector<string> &query: knowledge) {
+        dict[query[0]] = query[1];
+    }
+    string res = "";
+    int i = 0;
+    while (i < s.size()) {
+        char ch = s[i];
+        if (ch >= 'a' && ch <= 'z') {
+            res += ch;
+        } else if (ch == '(') {
+            string key = "";
+            while (s[++i] != ')') {
+                key += s[i];
+            }
+            if (dict.count(key) > 0) {
+                res += dict[key];
+            } else {
+                res += "?";
+            }
+        }
+        i++;
+    }
+    return res;
+}
+
+bool details::strongPasswordCheckerII(string password) {
+    if (password.size() < 8) {
+        return false;
+    }
+    bool has_letter_lo = false;
+    bool has_letter_up = false;
+    bool has_num = false;
+    bool has_letter_sp = false;
+    unordered_set<char> sp_letters = {
+            '!','@','#','$','%','^','&','*','(',')','-','+'
+    };
+    for (int i = 0; i < password.size(); i++) {
+        char ch = password[i];
+        if (i > 0 && ch == password[i-1]) {
+            return false;
+        }
+        has_letter_lo |= (ch <= 'z' && ch >= 'a');
+        has_letter_up |= (ch <= 'Z' && ch >= 'A');
+        has_num |= (ch <= '9' && ch >= '0');
+        has_letter_lo |= (ch <= 'z' && ch >= 'a');
+        has_letter_sp |= (sp_letters.count(ch) > 0);
+    }
+    return has_letter_lo && has_letter_sp && has_letter_up && has_num;
+}
+
 vector<int> details::constructArr(vector<int> &a) {
     vector<int> pre_mul(a.size() + 2, 1);
     vector<int> post_mul(a.size() + 2, 1);
@@ -504,6 +1053,52 @@ vector<int> details::constructArr(vector<int> &a) {
         res[i] = pre_mul[i] * post_mul[i + 2];
     }
     return res;
+
+}
+
+vector<int> details::productExceptSelf(vector<int>& nums) {
+    vector<int> res(nums.size());
+    res[0] = 1;
+    for (int i = 1; i < nums.size(); i++) {
+        res[i] = res[i-1]*nums[i-1];
+        // cout<<i<<res[i]<<endl;
+    }
+    int post_mul = 1;
+    for (int i = nums.size()-2; i >= 0; i--) {
+        post_mul *= nums[i+1];
+        res[i] *= post_mul;
+    }
+    return res;
+}
+
+int details::maxSubArray(vector<int>& nums) {
+    vector<int>pre_sum(nums.size());
+    vector<int>pre_sink(nums.size());
+    pre_sum[0] = nums[0];
+    int res = nums[0];
+    for (int i = 1; i < nums.size(); i++) {
+        pre_sum[i] += pre_sum[i-1] +nums[i];
+        pre_sink[i] = min(pre_sum[i-1],pre_sink[i-1]);
+        res = max(res, pre_sum[i] -pre_sink[i]);
+    }
+    return res;
+}
+
+int details::countDaysTogether(string arriveAlice, string leaveAlice, string arriveBob, string leaveBob) {
+    string arrive = (arriveAlice >= arriveBob) ? arriveAlice : arriveBob;
+    string leave = (leaveAlice <= leaveBob) ? leaveAlice : leaveBob;
+    if (arrive > leave) {
+        return 0;
+    }
+    vector<int>days = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    vector<int>pre_sum(12, 31);
+    for (int i = 1; i < 12; i++) {
+        pre_sum[i] = pre_sum[i - 1] + days[i - 1];
+    }
+    int arrive_day = pre_sum[stoi(arrive.substr(0,2))-1] + stoi(arrive.substr(3,2));
+    int leave_day = pre_sum[stoi(leave.substr(0,2))-1] + stoi(leave.substr(3,2));
+    // cout <<pre_sum[stoi(arrive.substr(0,2))-1] <<pre_sum[stoi(leave.substr(0,2))-1];
+    return leave_day - arrive_day + 1;
 
 }
 
@@ -562,6 +1157,26 @@ int details::trap(vector<int> &height) {
         dq.emplace_front(h);
     }
     return res;
+}
+
+bool details::isValid(string s) {
+    stack<char> bracket;
+    unordered_map<char, char> pairing = {
+            {'}', '{'},
+            {']', '['},
+            {')', '('}
+    };
+    for (char ch: s) {
+        if (!pairing.count(ch)) {
+            bracket.push(ch);
+        } else {
+            if (bracket.size() == 0 || pairing[ch] != bracket.top()) {
+                return false;
+            }
+            bracket.pop();
+        }
+    }
+    return bracket.size() == 0;
 }
 
 int details::findPairs(vector<int> &nums, int k) {
@@ -903,6 +1518,37 @@ ListNode *details::detectCycle(ListNode *head) {
 
 }
 
+bool details::validPalindrome(string s) {
+    int left = 0;
+    int right = s.size() - 1;
+    int chance = 0;
+    while (left < right) {
+        if (s[left] == s[right]) {
+            left++;
+            right--;
+            continue;
+        }
+        if (chance > 0) {
+            return false;
+        }
+        chance++;
+        return validPalindrome(s, left + 1, right) || validPalindrome(s, left, right - 1);
+    }
+    return true;
+
+}
+
+bool details::validPalindrome(string s, int left, int right) {
+    while (left < right && left >= 0 && right < s.size()) {
+        if (s[left] != s[right]) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+    return true;
+}
+
 vector<vector<int>> details::kSmallestPairs(vector<int> &nums1, vector<int> &nums2, int k) {
     auto cmp = [&nums1, &nums2](const vector<int> &a, const vector<int> &b) -> bool {
         return nums1[a[0]] + nums2[a[1]] > nums1[b[0]] + nums2[b[1]];
@@ -987,6 +1633,52 @@ void details::findKthLargestSort(vector<int> &nums, int i, int j, int k) {
     } else {
         findKthLargestSort(nums, i, s - 1, k);
     }
+}
+
+vector<vector<int>> details::kClosest(vector<vector<int>>& points, int k) {
+    k--;
+    int n = points.size();
+    vector<int>dist(n, 0);
+    vector<int>idx(n);
+    for (int i = 0; i < n; i++) {
+        dist[i] = points[i][0] * points[i][0] + points[i][1] * points[i][1];
+        idx[i] = i;
+    }
+    auto quick_sort = [&](auto&& self, int l, int r) -> void {
+        int rand_pos = rand() % (r - l + 1) + l;
+        swap(idx[l], idx[rand_pos]);
+        int i = l;
+        int j = r;
+        //cout<<rand_pos<<endl;
+        while (i < j) {
+            cout<<j<<idx[j]<<dist[idx[j]]<<endl;
+            while (i < j && dist[idx[j]] >= dist[idx[l]]) {
+                j--;
+            }
+            while (i < j && dist[idx[i]] <= dist[idx[l]]) {
+                i++;
+            }
+            //cout<<i<<j<<endl;
+            swap(idx[j], idx[i]);
+        }
+        swap(idx[l], idx[i]);
+        if (i == k) {
+            return;
+        } else if (i < k) {
+            self(self,i+1, r);
+        } else {
+            self(self,l, i-1);
+        }
+    };
+
+    quick_sort(quick_sort, 0, n-1);
+    vector<vector<int>> res;
+    for (int i = 0; i <= k; i++) {
+        // cout<<idx[i]<<endl;
+        res.push_back(points[idx[i]]);
+    }
+    return res;
+
 }
 
 ListNode *details::mergeKLists(vector<ListNode *> &lists) {

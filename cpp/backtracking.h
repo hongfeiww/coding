@@ -16,7 +16,7 @@ public:
 //    2、选择列表：也就是你当前可以做的选择。
 //    3、结束条件：也就是到达决策树底层，无法再做选择的条件。
 
-//本质就是穷举所有解，而这些解呈现树形结构
+//本质就是穷举所有解，而这些解呈现树形结构,做题画出来决策树就好了
 
 //    result = []
 //    def backtrack(路径, 选择列表):
@@ -71,6 +71,34 @@ public:
     vector<string>path_str;
     vector<vector<string>> partition(string s);
     void partition(string s, vector<vector<bool>> &is_palindrome, int pos);
+    int findTargetSumWays(vector<int>& nums, int target);
+    int res_cnt = 0;
+    void findTargetSumWaysBT(vector<int>& nums, int target ,int pos);
+
+    //[offer2 085] 生成匹配括号 easy //自己实现的，简单模版
+    string str = "";
+    vector<string> generateParenthesis(int n);
+    void generateParenthesis(int n, int left_cnt, int right_cnt);
+
+    //[offer2 087] 复原IP m //回溯模版//读题看漏了条件，string的substr一直debug
+    vector<string> restoreIpAddresses(string s);
+    void restoreIpAddresses(string s, int pos, int cut);
+
+    ///GREEDY
+    //[2375] 根据模式串构造最小数字 //贪心就可以，注意边界case
+    string smallestNumber(string pattern);
+    // [630] 课程表3 h  //贪心的方法想不到,后退贪心
+    int scheduleCourse(vector<vector<int>>& courses);
+    //[1326] 花园浇灌最少水龙头数目 m //贪心方法想不到，得用感觉理解 //dp的办法列的转化不对
+    int minTaps(int n, vector<int>& ranges);
+    //[1144] 递减元素使得数组呈锯齿状 m //贪心没想出来 // dp问题没想对，因为题目只递减没get
+    int movesToMakeZigzag(vector<int>& nums);
+    //[1605] 给定行列sum求可行矩阵 e //想不出来 //子问题，进行贪心之后子问题不变
+    vector<vector<int>> restoreMatrix(vector<int>& rowSum, vector<int>& colSum);
+    //[135] 分发糖果 h //代码和思路简单，我记得我做过，所以第二次会写
+    int candy(vector<int>& ratings) ;
+
+
 };
 
 
