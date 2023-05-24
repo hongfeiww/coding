@@ -231,6 +231,10 @@ namespace tree {
         int res = 0;
         pair<int,int> maxAncestorDiffExtre(TreeNode* root);
 
+        //[1080] 根据路径和删除节点 m //题没读懂，思路看了答案，转化问题到判断条件上
+        TreeNode* sufficientSubset(TreeNode* root, int limit) ;
+        bool sufficientSubset(TreeNode* root, int sum, int limit);
+
 
 
     };

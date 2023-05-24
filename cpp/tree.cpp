@@ -599,6 +599,34 @@ namespace tree {
         return {min(min_val,root->val), max(max_val,root->val)};
     }
 
+    TreeNode* Tree::sufficientSubset(TreeNode* root, int limit) {
+        bool res = sufficientSubset(root, 0, limit);
+        return res ? root : nullptr;
+    }
+    bool Tree::sufficientSubset(TreeNode* root, int sum, int limit) {
+        if (!root) {
+            return true;
+        }
+        sum += root->val; //debug 位置
+        if (!root->left && !root->right) {
+            //cout<<"del:"<<root->val<<sum <<endl;
+            return (sum >= limit);
+        }
+        bool left = sufficientSubset(root->left, sum, limit);
+        if (!left) {
+            // cout<<"left:"<<root->val<<endl;
+            root->left = nullptr;
+        }
+        bool right = sufficientSubset(root->right, sum, limit);
+        if (!right) {
+            //cout<<"right:"<<root->val<<endl;
+            root->right = nullptr;
+        }
+        //sum -= root->val;
+        //cout<<"end:"<<root->val<<!root->left<<!root->right<<endl;
+        return (root->left || root->right); //debug truefalse反了
+    }
+
     CBTInserter::CBTInserter(TreeNode *root) {
         this->root = root;
         nodes.emplace(root);

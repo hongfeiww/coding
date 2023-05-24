@@ -66,7 +66,7 @@ public:
     bool canPartitionKSubsetsRecur(vector<int>& nums, vector<int>& sums, int pos, int sum);
     bool canPartitionKSubsets(vector<int>& nums, int k);
 
-    //[offer2 086]分割palindrome string //回溯是分支视角，一开始的执行逻辑角度不对，以为是累积的
+    //[offer2 086]分割palindrome string //回溯是分支视角，一开始的执行逻辑角度不对，以为是累积的 // 迭代计算回文串
     vector<vector<string>>res_strs;
     vector<string>path_str;
     vector<vector<string>> partition(string s);

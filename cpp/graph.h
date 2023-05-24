@@ -195,5 +195,8 @@ namespace graph {
         //[542] 矩阵 m //模版dfs，思路简单
         vector<vector<int>> updateMatrix(vector<vector<int>>& mat);
 
+        //[841] 能否打开所有房间 easy // 6min，思路简单，模版bfs
+         bool canVisitAllRooms(vector<vector<int>>& rooms);
+
     };
 }

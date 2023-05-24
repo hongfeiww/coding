@@ -442,6 +442,30 @@ namespace dp {
         }
         return dp[n];
     }
+    int dp::minDifficulty(vector<int>& jobDifficulty, int d) {
+        int n = jobDifficulty.size();
+        if (n < d) {
+            return -1;
+        }
+        vector<vector<int>>dp(d, vector<int>(n, 400000));
+        int max_val = 0;
+        for (int j = 0; j < n; j++) { //debug
+            max_val = max(max_val, jobDifficulty[j]);
+            dp[0][j] = max_val;
+        }
+        for (int i = 1; i < d; i++) {
+            for (int j = i; j < n; j++) {
+                int max_difficulty = 0;
+                for (int k = j; k >= i; k--) {
+                    max_difficulty = max(max_difficulty, jobDifficulty[k]);
+                    int job_diff =dp[i-1][k-1]+max_difficulty;
+                    dp[i][j] =  min(dp[i][j],job_diff);
+                    //cout << i<<j<<k<<dp[i][j]<<endl;
+                }
+            }
+        }
+        return dp[d-1][n-1];
+    }
 
 
 }

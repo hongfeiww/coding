@@ -92,6 +92,10 @@ public:
     //[2413] gcd e //求gcd和最小公倍数
     int smallestEvenMultiple(int n);
 
+    ////* hashtable */
+    //[1090] 选出数字和最大 e //思路简单
+    int largestValsFromLabels(vector<int>& values, vector<int>& labels, int numWanted, int useLimit);
+
     /////* strings */
     //[01.09] 字符串轮转 e//这种旋转都是s+s,string的func
     bool isFlipedString(string s1, string s2);

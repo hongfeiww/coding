@@ -53,14 +53,23 @@ namespace dp {
         int bestTeamScore(vector<int>& scores, vector<int>& ages);
         //[1147] 段式回文 h //看到双指针之后思路get简单，但是实现很复杂写不出来，字符串内sub的复杂比较可以拷贝出来单独比较
         int longestDecomposition(string text);
-        //[343] 整数拆分 m //剪绳子问题，思路记不住，一直觉得哪里怪怪的
-        int integerBreak(int n);
+
         //[offer2 091] painting the house easy //思路和实现都简单
         int minCost(vector<vector<int>>& costs);
         //[offer2 098] path cnt easy //思路和实现都简单
         int uniquePaths(int m, int n);
+
+        /* 要求将一个序列或字符串划分成若干满足要求的片段
+           解决方法：最后一步 -> 最后一段
+                   枚举最后一段的起点
+           如果题目不指定段数，用 f[i] 表示前i个元素分段后的可行性/最值，可行性，方式数：Perfect Squares、Palindrome Partition II
+           如果题目指定段数，用f[i][j]表示前i个元素分成j段后的可行性/最值，可行性，方式数：Copy Books*/
+        //[1335] 分割工作list，使得分割段max之和最大 h //划分型dp https://motongxue.cn/posts/2930816015/ //dp更新顺序想的不对，index错位debug很久 //边界case就不要合并了，单写
+        int minDifficulty(vector<int>& jobDifficulty, int d);
         //[1043] 分割数组得到最大和 m //没想出来，是一种类型，以末尾为结尾不断延长
         int maxSumAfterPartitioning(vector<int> &arr, int k);
+        //[343] 整数拆分 m //剪绳子问题，思路记不住，一直觉得哪里怪怪的
+        int integerBreak(int n);
 
 
     };

@@ -609,6 +609,33 @@ namespace graph {
         return res;
     }
 
+    bool  Graph::canVisitAllRooms(vector<vector<int>>& rooms) {
+        queue<int>q;
+        int n = rooms.size();
+        vector<bool> visited(n, false);
+        visited[0] = true; //debug
+        for (const auto& key : rooms[0]) {
+            q.push(key);
+            visited[key] = true;
+        }
+        while (!q.empty()) {
+            int r = q.front();
+            q.pop();
+            for (const auto& key : rooms[r]) {
+                if (!visited[key]) {
+                    visited[key] = true;
+                    q.push(key);
+                }
+            }
+        }
+        for (const auto& v : visited) {
+            if (!v) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
 
 

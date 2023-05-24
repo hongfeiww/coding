@@ -175,7 +175,6 @@ int details::reverse(int x) {
         } else {
             res = res * 10 + (x_str[i] - '0');
         }
-
     }
     return res * op;
 }
@@ -961,6 +960,40 @@ int details::smallestEvenMultiple(int n) {
     return res / n;
 
 }
+int details::largestValsFromLabels(vector<int>& values, vector<int>& labels, int numWanted, int useLimit) {
+    int n = values.size();
+    vector<int> idx(n, 0); //debug
+    for (int i = 0; i < n; i++) {
+        idx[i] = i;
+    }
+    // cout<<n<<endl;
+    auto cmp = [&values](int i , int j) -> bool {
+        return values[i] > values[j];
+    };
+    sort(idx.begin(), idx.end(), cmp);
+    unordered_map<int, int>bucket;
+    int res = 0;
+
+    for (const int& i : idx) {
+        if (numWanted <= 0) {
+            break;
+        }
+        int key = labels[i];
+        int val = values[i];
+        //cout<<val<<endl;
+        if (!bucket.count(key)) {
+            bucket[key] = 1;
+        } else {
+            bucket[key]++;
+        }
+        if (bucket[key] <= useLimit) {
+            res += val;
+            numWanted--;
+        }
+    }
+    return res;
+}
+
 bool details::isFlipedString(string s1, string s2) {
     if (s1.size() != s2.size()) {
         return false;
