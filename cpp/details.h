@@ -239,6 +239,9 @@ public:
     bool validPalindrome(string s, int left, int right);
 
 
+    //[11] 盛水最多的一种block e //思路没想到，提姆的样式很容易想到双指针，指针如何变化取决于哪种情况是可以丢弃的
+    int maxArea(vector<int>& height);
+
     /////* Priority Queue */
     // [offer2 061] 和最小的k个数对 m // 方法没想出来，BFS的思想 //优化也没想出来，避免重复的操作
     vector<vector<int>> kSmallestPairs(vector<int> &nums1, vector<int> &nums2, int k);

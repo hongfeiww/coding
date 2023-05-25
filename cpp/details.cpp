@@ -1582,6 +1582,22 @@ bool details::validPalindrome(string s, int left, int right) {
     return true;
 }
 
+int details::maxArea(vector<int>& height) {
+    int i = 0;
+    int j = height.size() - 1;
+    int res = 0;
+    while (i < j) {
+        if (height[i] < height[j]) {
+            res = max(res, height[i] * (j - i));
+            i++;
+        } else {
+            res = max(res, height[j] * (j - i));
+            j--;
+        }
+    }
+    return res;
+}
+
 vector<vector<int>> details::kSmallestPairs(vector<int> &nums1, vector<int> &nums2, int k) {
     auto cmp = [&nums1, &nums2](const vector<int> &a, const vector<int> &b) -> bool {
         return nums1[a[0]] + nums2[a[1]] > nums1[b[0]] + nums2[b[1]];

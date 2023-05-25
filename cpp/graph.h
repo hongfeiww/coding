@@ -198,5 +198,8 @@ namespace graph {
         //[841] 能否打开所有房间 easy // 6min，思路简单，模版bfs
          bool canVisitAllRooms(vector<vector<int>>& rooms);
 
+         //[1377] 在tree上跳跃的位置 m //bfs思路简单，代码中的判断条件和ifelse可以简化
+        double frogPosition(int n, vector<vector<int>>& edges, int t, int target);
+
     };
 }

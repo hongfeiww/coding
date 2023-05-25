@@ -636,6 +636,52 @@ namespace graph {
         return true;
     }
 
+    double Graph::frogPosition(int n, vector<vector<int>>& edges, int t, int target) {
+        vector<vector<int>> graph(n+1, vector<int>());
+        for (const auto& e : edges) {
+            graph[e[0]].push_back(e[1]);
+            graph[e[1]].push_back(e[0]);
+        }
+        vector<bool>visited(n+1, false);
+        queue<pair<int, double>>q;
+        q.push({1, 1});
+        visited[1] = true;
+        while (!q.empty()) {
+            int l = q.size();
+            if (t < 0) {
+                return 0;
+            }
+            while (l > 0) {
+                auto[node, chance] = q.front(); //debug &
+                q.pop();
+                if (t == 0) {
+                    if (node == target) {
+                        return chance;
+                    }
+                } else {
+                    set<int>valid;
+                    for (const int neighbor : graph[node]) {
+                        if (!visited[neighbor]) {
+                            visited[neighbor] = true;
+                            valid.insert(neighbor);
+                        }
+                    }
+                    if (node == target) {
+                        return valid.empty() ? chance : 0;
+                    }
+                    double new_chance = chance * 1.0 / valid.size();
+                    for (const int v : valid) {
+                        q.push({v, new_chance});
+                    }
+                }
+                l--;
+            }
+            t--;
+
+        }
+        return 0;
+    }
+
 }
 
 
