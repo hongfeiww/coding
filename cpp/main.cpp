@@ -297,11 +297,11 @@ int main() {
 
     test_vec(input);
 
-    vector<int> input2 = {1, 1, 1, 1, 1};
+    vector<int> input2 = {1,2,1,2,3};
     vector<string> input_str = {"word", "good", "best", "good"};
 //       auto res = d.advantageCount(input,input2);
     //   int res = g.kSimilarity("abccaacceecdeea","bcaacceeccdeaae");
-    auto res = g.braceExpansionIIBFS("{a,b}{c,{d,e}}", 0);
+    auto res = d.subarraysWithKDistinct(input2, 2);
     //   cout << res << endl;
 //    for (int i = 0; i < res.size(); i++) {
 //        std::cout << res[i] << endl;

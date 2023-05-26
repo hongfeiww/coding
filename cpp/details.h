@@ -188,6 +188,9 @@ public:
     //[offer 21] 调整数组顺序使奇数位于偶数前面 easy // 双指针模版
     vector<int> exchange(vector<int> &nums);
 
+    //[992] k个不同整数的所有substring h //滑动的方式没想到，用了三指针，两hash //还有一种方法是转化成另一个问题
+    int subarraysWithKDistinct(vector<int> &nums, int k);
+
     //[2379] 得到k个黑块儿最少涂色次数 e //e都想不到思路还得看提示，想的复杂了
     int minimumRecolors(string blocks, int k);
 

@@ -227,14 +227,14 @@ ListNode *details::reverseList(ListNode *head) {
     return new_head;
 }
 
-ListNode* details::mergeInBetween(ListNode* list1, int a, int b, ListNode* list2) {
-    ListNode* res_head = list1;
+ListNode *details::mergeInBetween(ListNode *list1, int a, int b, ListNode *list2) {
+    ListNode *res_head = list1;
     int i = 0;
-    while (i < a-1) { //debug
+    while (i < a - 1) { //debug
         list1 = list1->next;
         i++;
     }
-    ListNode* cut_head = list1;
+    ListNode *cut_head = list1;
     while (i <= b) {
         list1 = list1->next;
         i++;
@@ -249,9 +249,9 @@ ListNode* details::mergeInBetween(ListNode* list1, int a, int b, ListNode* list2
 
 }
 
-vector<int> details::nextLargerNodes(ListNode* head) {
-    stack<pair<int,int>>s;
-    vector<int>res(1e4, 0);
+vector<int> details::nextLargerNodes(ListNode *head) {
+    stack<pair<int, int>> s;
+    vector<int> res(1e4, 0);
     int idx = 0;
     while (head) {
         int val = head->val;
@@ -263,13 +263,13 @@ vector<int> details::nextLargerNodes(ListNode* head) {
         idx++;
         head = head->next;
     }
-    res.erase(res.begin()+idx, res.end());
+    res.erase(res.begin() + idx, res.end());
     return res;
 }
 
-ListNode* details::addTwoNumbers(ListNode* l1, ListNode* l2) {
-    stack<int>s1;
-    stack<int>s2;
+ListNode *details::addTwoNumbers(ListNode *l1, ListNode *l2) {
+    stack<int> s1;
+    stack<int> s2;
     while (l1) {
         s1.push(l1->val);
         l1 = l1->next;
@@ -278,7 +278,7 @@ ListNode* details::addTwoNumbers(ListNode* l1, ListNode* l2) {
         s2.push(l2->val);
         l2 = l2->next;
     }
-    ListNode* pre_head = new ListNode(0);
+    ListNode *pre_head = new ListNode(0);
     int over = 0;
     while (!s1.empty() && !s2.empty()) {
         int bit = s1.top() + s2.top() + over;
@@ -286,7 +286,7 @@ ListNode* details::addTwoNumbers(ListNode* l1, ListNode* l2) {
         s2.pop();
         over = bit / 10;
         bit %= 10;
-        ListNode* node = new ListNode(bit);
+        ListNode *node = new ListNode(bit);
         node->next = pre_head->next;
         pre_head->next = node;
     }
@@ -296,26 +296,26 @@ ListNode* details::addTwoNumbers(ListNode* l1, ListNode* l2) {
         s1.pop();
         over = bit / 10;
         bit %= 10;
-        ListNode* node = new ListNode(bit);
+        ListNode *node = new ListNode(bit);
         node->next = pre_head->next;
         pre_head->next = node;
     }
     if (over > 0) { //debug
-        ListNode* node = new ListNode(over);
+        ListNode *node = new ListNode(over);
         node->next = pre_head->next;
         pre_head->next = node;
     }
-    return  pre_head->next;
+    return pre_head->next;
 
 
 }
 
-ListNode* details::insertionSortList(ListNode* head) {
-    ListNode* res = new ListNode(0, head);
-    ListNode* head_next;
-    ListNode* head_pre = res; //debug
+ListNode *details::insertionSortList(ListNode *head) {
+    ListNode *res = new ListNode(0, head);
+    ListNode *head_next;
+    ListNode *head_pre = res; //debug
     while (head) {
-        ListNode* cur = res;
+        ListNode *cur = res;
         head_next = head->next;
         bool flag = false;
         while (cur->next != head) {
@@ -409,7 +409,7 @@ int details::firstBadVersion(int n) {
     int i = 1;
     int j = n;
     while (i <= j) {
-        int mid = i + (j - i)/2;
+        int mid = i + (j - i) / 2;
 //        if (isBadVersion(mid)) {
 //            j = mid - 1;
 //        } else {
@@ -496,6 +496,50 @@ vector<int> details::exchange(vector<int> &nums) {
     return nums;
 }
 
+int details::subarraysWithKDistinct(vector<int> &nums, int k) {
+    int n = nums.size();
+    unordered_map<int, int> buk_s;
+    unordered_map<int, int> buk_t;
+    int s = 0;
+    int t = 0;
+    int j = 0;
+    int res = 0;
+    int diff_s = 0;
+    int diff_t = 0;
+
+    while (j < n) {
+        buk_s[nums[j]]++;
+        if (buk_s[nums[j]] == 1) {
+            diff_s++;
+        }
+        buk_t[nums[j]]++;
+        if (buk_t[nums[j]] == 1) {
+            diff_t++;
+        }
+
+        while (t <= j && (diff_t > k - 1)) {
+            buk_t[nums[t]]--;
+            if (buk_t[nums[t]] == 0) {
+                diff_t--;
+            }
+            t++;
+        }
+
+        while (s < t && (diff_s > k)) {
+            buk_s[nums[s]]--;
+            if (buk_s[nums[s]] == 0) {
+                diff_s--;
+            }
+            s++;
+        }
+        if (diff_s == k) {
+            res += t - s;
+        }
+        j++;
+    }
+    return res;
+}
+
 int details::minimumRecolors(string blocks, int k) {
     int res = k;
     int cnt = 0;
@@ -507,14 +551,15 @@ int details::minimumRecolors(string blocks, int k) {
         }
         j++;
         while (j - i > k) {
-            cnt += blocks[i]=='W'? -1:0;
+            cnt += blocks[i] == 'W' ? -1 : 0;
             i++;
         }
-        if (j - i == k) res = min(cnt,res);
+        if (j - i == k) res = min(cnt, res);
 
     }
     return res;
 }
+
 int details::totalFruit(vector<int> &fruits) {
     int res = 0;
     int cnt = 0;
@@ -592,9 +637,9 @@ int details::minEatingSpeedTimeConsumed(vector<int> &piles, int k) {
     return res;
 }
 
-vector<string> details::sortPeople(vector<string>& names, vector<int>& heights) {
+vector<string> details::sortPeople(vector<string> &names, vector<int> &heights) {
     int n = names.size();
-    vector<int>idx(n, 0);
+    vector<int> idx(n, 0);
     for (int i = 0; i < n; i++) {
         idx[i] = i;
     }
@@ -605,7 +650,7 @@ vector<string> details::sortPeople(vector<string>& names, vector<int>& heights) 
 
     sort(idx.begin(), idx.end(), comp);
     // cout<<idx[0]<<endl;
-    vector<string>res(n);
+    vector<string> res(n);
     for (int i = 0; i < n; i++) {
         //cout<<idx[i]<<endl;
         res[i] = names[idx[i]];
@@ -699,11 +744,11 @@ int details::isMagicGetPrefix(vector<int> &cards, vector<int> &target) {
     return res;
 }
 
-int details::countNicePairs(vector<int>& nums) {
-    unordered_map<int, int>diff_cnt;
+int details::countNicePairs(vector<int> &nums) {
+    unordered_map<int, int> diff_cnt;
     int res = 0; //init debug
     int mod = 1e9 + 7;
-    for (int num : nums) {
+    for (int num: nums) {
         int rev_diff = num - countNicePairsGetRev(num);
         //cout << diff_cnt[rev_diff] <<endl;
         res = (res + diff_cnt[rev_diff]) % mod;
@@ -711,7 +756,8 @@ int details::countNicePairs(vector<int>& nums) {
     }
     return res;
 }
-int details::countNicePairsGetRev(int& nums) {
+
+int details::countNicePairsGetRev(int &nums) {
     int res = 0;
     while (nums > 0) {
         int n = nums % 10;
@@ -723,29 +769,29 @@ int details::countNicePairsGetRev(int& nums) {
     return res;
 }
 
-vector<int> details::findingUsersActiveMinutes(vector<vector<int>>& logs, int k) {
-    unordered_map<int,unordered_set<int>> user_action;
-    for (vector<int>& log : logs) {
+vector<int> details::findingUsersActiveMinutes(vector<vector<int>> &logs, int k) {
+    unordered_map<int, unordered_set<int>> user_action;
+    for (vector<int> &log: logs) {
         user_action[log[0]].insert(log[1]);
     }
-    vector<int>res(k, 0);
-    for (auto p : user_action) {
-        res[p.second.size()-1]++;
+    vector<int> res(k, 0);
+    for (auto p: user_action) {
+        res[p.second.size() - 1]++;
     }
     return res;
 }
 
-vector<string> details::getFolderNames(vector<string>& names) {
+vector<string> details::getFolderNames(vector<string> &names) {
 
     unordered_map<string, int> name_cnt;
-    for (auto& name : names) {
+    for (auto &name: names) {
         if (name_cnt.count(name) > 0) {
             int k = name_cnt[name];
-            while (name_cnt.count(name+"("+to_string(k)+")") > 0) {
+            while (name_cnt.count(name + "(" + to_string(k) + ")") > 0) {
                 k++;
             }
-            name_cnt[name] = k+1;
-            name +="("+to_string(k)+")";
+            name_cnt[name] = k + 1;
+            name += "(" + to_string(k) + ")";
         }
         name_cnt[name] = 1;
     }
@@ -757,11 +803,11 @@ int details::calculate(string s) {
     return calculate(s, i);
 }
 
-int details::calculate(string& s, int& i) {
+int details::calculate(string &s, int &i) {
     int n = 0;
     char pre_sign = '+';
     stack<int> num;
-    for (;i < s.size(); i++) {
+    for (; i < s.size(); i++) {
 
         if (isdigit(s[i])) {
             n = n * 10 + (s[i] - '0');
@@ -804,8 +850,9 @@ int details::calculate(string& s, int& i) {
     }
     return res;
 }
-vector<bool> details::checkArithmeticSubarrays(vector<int>& nums, vector<int>& l, vector<int>& r) {
-    vector<bool>res(l.size(), true);
+
+vector<bool> details::checkArithmeticSubarrays(vector<int> &nums, vector<int> &l, vector<int> &r) {
+    vector<bool> res(l.size(), true);
     for (int i = 0; i < l.size(); i++) {
         int head = l[i];
         int tail = r[i];
@@ -828,7 +875,7 @@ vector<bool> details::checkArithmeticSubarrays(vector<int>& nums, vector<int>& l
             res[i] = false;
             continue;
         }
-        vector<bool>bucket(tail - head + 1, false);
+        vector<bool> bucket(tail - head + 1, false);
         for (int j = head; j <= tail; j++) {
             int pos = (nums[j] - min_val) / d;
             if ((nums[j] - min_val) % d != 0 || pos >= bucket.size() || bucket[pos]) {
@@ -842,22 +889,24 @@ vector<bool> details::checkArithmeticSubarrays(vector<int>& nums, vector<int>& l
 }
 
 bool details::isRobotBounded(string instructions) {
-    vector<int>person = {0,0,0}; // pos and direction
-    auto step = [&]() -> void {switch (person[2]) {
-        case 0 :
-            person[1]++;
-            break;
-        case 1 :
-            person[0]++;
-            break;
-        case 2 :
-            person[1]--;
-            break;
-        case 3 :
-            person[0]--;
-            break;
-    }};
-    for (const char& ch : instructions) {
+    vector<int> person = {0, 0, 0}; // pos and direction
+    auto step = [&]() -> void {
+        switch (person[2]) {
+            case 0 :
+                person[1]++;
+                break;
+            case 1 :
+                person[0]++;
+                break;
+            case 2 :
+                person[1]--;
+                break;
+            case 3 :
+                person[0]--;
+                break;
+        }
+    };
+    for (const char &ch: instructions) {
         switch (ch) {
             case 'G':
                 step();
@@ -927,7 +976,7 @@ bool details::isNumber(string s) {
     }
     s = s.substr(i, s.size() - i);
     i = s.size() - 1;
-    while (i >= 0  && s[i] == ' ') {
+    while (i >= 0 && s[i] == ' ') {
         i--;
     }
     s = s.substr(0, i + 1);
@@ -943,7 +992,8 @@ bool details::isNumber(string s) {
     if (i >= s.size()) {
         return is_integer(s) || is_float(s);
     } else {
-        return (is_integer(s.substr(0,i)) || is_float(s.substr(0,i))) && is_integer(s.substr(i + 1,s.size()-i-1));
+        return (is_integer(s.substr(0, i)) || is_float(s.substr(0, i))) &&
+               is_integer(s.substr(i + 1, s.size() - i - 1));
     }
 
 }
@@ -960,21 +1010,22 @@ int details::smallestEvenMultiple(int n) {
     return res / n;
 
 }
-int details::largestValsFromLabels(vector<int>& values, vector<int>& labels, int numWanted, int useLimit) {
+
+int details::largestValsFromLabels(vector<int> &values, vector<int> &labels, int numWanted, int useLimit) {
     int n = values.size();
     vector<int> idx(n, 0); //debug
     for (int i = 0; i < n; i++) {
         idx[i] = i;
     }
     // cout<<n<<endl;
-    auto cmp = [&values](int i , int j) -> bool {
+    auto cmp = [&values](int i, int j) -> bool {
         return values[i] > values[j];
     };
     sort(idx.begin(), idx.end(), cmp);
-    unordered_map<int, int>bucket;
+    unordered_map<int, int> bucket;
     int res = 0;
 
-    for (const int& i : idx) {
+    for (const int &i: idx) {
         if (numWanted <= 0) {
             break;
         }
@@ -1056,11 +1107,11 @@ bool details::strongPasswordCheckerII(string password) {
     bool has_num = false;
     bool has_letter_sp = false;
     unordered_set<char> sp_letters = {
-            '!','@','#','$','%','^','&','*','(',')','-','+'
+            '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+'
     };
     for (int i = 0; i < password.size(); i++) {
         char ch = password[i];
-        if (i > 0 && ch == password[i-1]) {
+        if (i > 0 && ch == password[i - 1]) {
             return false;
         }
         has_letter_lo |= (ch <= 'z' && ch >= 'a');
@@ -1089,30 +1140,30 @@ vector<int> details::constructArr(vector<int> &a) {
 
 }
 
-vector<int> details::productExceptSelf(vector<int>& nums) {
+vector<int> details::productExceptSelf(vector<int> &nums) {
     vector<int> res(nums.size());
     res[0] = 1;
     for (int i = 1; i < nums.size(); i++) {
-        res[i] = res[i-1]*nums[i-1];
+        res[i] = res[i - 1] * nums[i - 1];
         // cout<<i<<res[i]<<endl;
     }
     int post_mul = 1;
-    for (int i = nums.size()-2; i >= 0; i--) {
-        post_mul *= nums[i+1];
+    for (int i = nums.size() - 2; i >= 0; i--) {
+        post_mul *= nums[i + 1];
         res[i] *= post_mul;
     }
     return res;
 }
 
-int details::maxSubArray(vector<int>& nums) {
-    vector<int>pre_sum(nums.size());
-    vector<int>pre_sink(nums.size());
+int details::maxSubArray(vector<int> &nums) {
+    vector<int> pre_sum(nums.size());
+    vector<int> pre_sink(nums.size());
     pre_sum[0] = nums[0];
     int res = nums[0];
     for (int i = 1; i < nums.size(); i++) {
-        pre_sum[i] += pre_sum[i-1] +nums[i];
-        pre_sink[i] = min(pre_sum[i-1],pre_sink[i-1]);
-        res = max(res, pre_sum[i] -pre_sink[i]);
+        pre_sum[i] += pre_sum[i - 1] + nums[i];
+        pre_sink[i] = min(pre_sum[i - 1], pre_sink[i - 1]);
+        res = max(res, pre_sum[i] - pre_sink[i]);
     }
     return res;
 }
@@ -1123,13 +1174,13 @@ int details::countDaysTogether(string arriveAlice, string leaveAlice, string arr
     if (arrive > leave) {
         return 0;
     }
-    vector<int>days = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    vector<int>pre_sum(12, 31);
+    vector<int> days = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    vector<int> pre_sum(12, 31);
     for (int i = 1; i < 12; i++) {
         pre_sum[i] = pre_sum[i - 1] + days[i - 1];
     }
-    int arrive_day = pre_sum[stoi(arrive.substr(0,2))-1] + stoi(arrive.substr(3,2));
-    int leave_day = pre_sum[stoi(leave.substr(0,2))-1] + stoi(leave.substr(3,2));
+    int arrive_day = pre_sum[stoi(arrive.substr(0, 2)) - 1] + stoi(arrive.substr(3, 2));
+    int leave_day = pre_sum[stoi(leave.substr(0, 2)) - 1] + stoi(leave.substr(3, 2));
     // cout <<pre_sum[stoi(arrive.substr(0,2))-1] <<pre_sum[stoi(leave.substr(0,2))-1];
     return leave_day - arrive_day + 1;
 
@@ -1582,7 +1633,7 @@ bool details::validPalindrome(string s, int left, int right) {
     return true;
 }
 
-int details::maxArea(vector<int>& height) {
+int details::maxArea(vector<int> &height) {
     int i = 0;
     int j = height.size() - 1;
     int res = 0;
@@ -1684,23 +1735,23 @@ void details::findKthLargestSort(vector<int> &nums, int i, int j, int k) {
     }
 }
 
-vector<vector<int>> details::kClosest(vector<vector<int>>& points, int k) {
+vector<vector<int>> details::kClosest(vector<vector<int>> &points, int k) {
     k--;
     int n = points.size();
-    vector<int>dist(n, 0);
-    vector<int>idx(n);
+    vector<int> dist(n, 0);
+    vector<int> idx(n);
     for (int i = 0; i < n; i++) {
         dist[i] = points[i][0] * points[i][0] + points[i][1] * points[i][1];
         idx[i] = i;
     }
-    auto quick_sort = [&](auto&& self, int l, int r) -> void {
+    auto quick_sort = [&](auto &&self, int l, int r) -> void {
         int rand_pos = rand() % (r - l + 1) + l;
         swap(idx[l], idx[rand_pos]);
         int i = l;
         int j = r;
         //cout<<rand_pos<<endl;
         while (i < j) {
-            cout<<j<<idx[j]<<dist[idx[j]]<<endl;
+            cout << j << idx[j] << dist[idx[j]] << endl;
             while (i < j && dist[idx[j]] >= dist[idx[l]]) {
                 j--;
             }
@@ -1714,13 +1765,13 @@ vector<vector<int>> details::kClosest(vector<vector<int>>& points, int k) {
         if (i == k) {
             return;
         } else if (i < k) {
-            self(self,i+1, r);
+            self(self, i + 1, r);
         } else {
-            self(self,l, i-1);
+            self(self, l, i - 1);
         }
     };
 
-    quick_sort(quick_sort, 0, n-1);
+    quick_sort(quick_sort, 0, n - 1);
     vector<vector<int>> res;
     for (int i = 0; i <= k; i++) {
         // cout<<idx[i]<<endl;

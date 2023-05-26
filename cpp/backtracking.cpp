@@ -4,6 +4,7 @@
 
 #include <string>
 #include <queue>
+#include <numeric>
 #include "backtracking.h"
 
 
@@ -407,7 +408,7 @@ int backtracking::candy(vector<int> &ratings) {
             cnt[i - 1] = cnt[i] + 1;
         }
     }
-    return accumulate(cnt.begin(), cnt.end(), 0);
+    return std::accumulate(cnt.begin(), cnt.end(), 0);
 }
 
 string backtracking::smallestNumber(string pattern) {
