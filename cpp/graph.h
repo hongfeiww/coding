@@ -201,5 +201,8 @@ namespace graph {
          //[1377] 在tree上跳跃的位置 m //bfs思路简单，代码中的判断条件和ifelse可以简化
         double frogPosition(int n, vector<vector<int>>& edges, int t, int target);
 
+        //[45] //常规bfs，有个边界case
+        int jump(vector<int>& nums);
+
     };
 }

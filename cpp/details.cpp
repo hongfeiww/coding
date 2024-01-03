@@ -636,6 +636,40 @@ int details::minEatingSpeedTimeConsumed(vector<int> &piles, int k) {
     }
     return res;
 }
+double  details::findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+    int m = nums1.size();
+    int n = nums2.size();
+    if ((m + n) % 2) {
+        return findMedianSortedArrays(nums1, 0, nums2, 0, (nums1.size()+nums2.size())/2+1);
+    } else {
+        int a = findMedianSortedArrays(nums1, 0, nums2, 0, (nums1.size()+nums2.size())/2);
+        int b = findMedianSortedArrays(nums1, 0, nums2, 0, (nums1.size()+nums2.size())/2 + 1);
+        cout<<a<<b<<endl;
+        return ( a+b)
+               /2.0;
+    }
+
+}
+
+double  details::findMedianSortedArrays(vector<int>& nums1, int s1, vector<int>& nums2, int s2, int k) {
+    int m = nums1.size();
+    int n = nums2.size();
+    // cout<<k<<s1<<s2<<endl;
+    if (s1 >= nums1.size() || s2 >= nums2.size()) {
+        return s1 >= nums1.size() ? nums2[s2 + k - 1] : nums1[s1 + k - 1];
+    }
+    if (k == 1) {
+        return nums1[s1] < nums2[s2] ? nums1[s1] : nums2[s2];
+    }
+    int mid = k / 2;
+    int pos1 = min(s1 + mid - 1, m - 1);
+    int pos2 = min(s2 + mid - 1, n - 1);
+    if (nums1[pos1] < nums2[pos2]) {
+        return findMedianSortedArrays(nums1, pos1 + 1, nums2, s2, k-pos1+s1-1);
+    } else {
+        return findMedianSortedArrays(nums1, s1, nums2, pos2+1, k-pos2+s2-1);
+    }
+}
 
 vector<string> details::sortPeople(vector<string> &names, vector<int> &heights) {
     int n = names.size();
@@ -1363,6 +1397,26 @@ int details::lengthOfLongestSubstring(string s) {
         max_len = max(j - i, max_len);
     }
     return max_len;
+}
+
+int lengthOfLongestSubstring(string s) {
+    unordered_map<char, int> bucket;
+    int res = 0;
+    int i = 0;
+    int j = 0;
+    while (j < s.size()) {
+        bucket[s[j]]++;
+        if (bucket[s[j]] > 1) {
+            while (i < j && bucket[s[j]] > 1) {
+                bucket[s[i]]--;
+                i++;
+            }
+        }
+        res = max(res, j - i + 1);
+        j++;
+    }
+    return res;
+
 }
 
 

@@ -209,7 +209,7 @@ public:
     //[167] twosum2 easy
     vector<int> twoSum(vector<int> &numbers, int target);
 
-    //[剑指 Offer 48] 最长不含重复字符的子字符串 // 第二次写不会
+    //[剑指 Offer 48] 最长不含重复字符的子字符串 // 第二次写不会 //第三次写还是bug，写的方法不好
     int lengthOfLongestSubstring(string s);
 
     // [剑指 Offer2 15] 字符中所有变位词 m //map中不存在key的操作会有影响
@@ -241,8 +241,11 @@ public:
 
     bool validPalindrome(string s, int left, int right);
 
+    // [1099] 数组里找到和最接近k的两个数 e //没想到双指针，array问题先想一下sort
+    int twoSumLessThanK(vector<int>& nums, int k);
 
-    //[11] 盛水最多的一种block e //思路没想到，提姆的样式很容易想到双指针，指针如何变化取决于哪种情况是可以丢弃的
+
+    //[11] 盛水最多的一种block e //思路没想到，提姆的样式很容易想到双指针，指针如何变化取决于哪种情况是可以丢弃的 //第二次思路还是没想明白
     int maxArea(vector<int>& height);
 
     /////* Priority Queue */
@@ -278,6 +281,10 @@ public:
     int minEatingSpeedBinarySearch(vector<int> &piles, int s, int e, int h);
 
     int minEatingSpeedTimeConsumed(vector<int> &piles, int k);
+
+    //[4] 思路不会 m //如何二分，依据k
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2);
+    double findMedianSortedArrays(vector<int>& nums1, int s1, vector<int>& nums2, int s2, int k);
 
     ///sort
     //[2418] 按身高排序 e //sort()用法

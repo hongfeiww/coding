@@ -70,6 +70,8 @@ namespace dp {
         int maxSumAfterPartitioning(vector<int> &arr, int k);
         //[343] 整数拆分 m //剪绳子问题，思路记不住，一直觉得哪里怪怪的
         int integerBreak(int n);
+        //[221] m //思路想不到很巧妙
+        int maximalSquare(vector<vector<char>>& matrix);
 
 
     };

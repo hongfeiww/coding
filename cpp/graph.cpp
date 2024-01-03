@@ -682,6 +682,42 @@ namespace graph {
         return 0;
     }
 
+    int Graph::jump(vector<int>& nums) {
+        queue<int>q;
+        int depth = 0;
+        q.push(0);
+        int n = nums.size();
+        if (n == 1) {
+            return 0;
+        }
+        vector<bool> visited(n, false);
+        visited[0] = true;
+        while (!q.empty()) {
+            int l = q.size();
+            int end = 0;
+            int start = n;
+            while (l > 0) {
+                int pos = q.front();
+                q.pop();
+                end = max(end, pos + nums[pos]);
+                start = min(start, pos);
+                l--;
+            }
+            depth++;
+            if (end >= n-1) {
+                return depth;
+            }
+            for (int i = start; i <= end; i++) {
+                if (!visited[i]) {
+                    q.push(i);
+                    visited[i] = true;
+                }
+            }
+
+        }
+        return -1;
+    }
+
 }
 
 

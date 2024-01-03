@@ -136,6 +136,20 @@ namespace tree {
         return left ? left : right;
 
     }
+    TreeNode* lowestCommonAncestor3(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root) {
+            return root;
+        }
+        if (root == p || root == q) {
+            return root;
+        }
+        TreeNode* left = lowestCommonAncestor3(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor3(root->right, p, q);
+        if (left && right) {
+            return root;
+        }
+        return left ? left : right;
+    }
 
     std::vector<std::vector<int>> Tree::pathSum(TreeNode *root, int target) {
         pathSumRecur(root, target);
@@ -402,6 +416,24 @@ namespace tree {
         return res;
     }
 
+    int Tree::maxPathSum(TreeNode *root) {
+        max_sum = -2000;
+        int max_root = maxPathSumRecur(root);
+        return max(max_sum, max_root);
+    }
+
+    int Tree::maxPathSumRecur(TreeNode *root) {
+        if (!root) {
+            return 0;
+        }
+        int left = maxPathSumRecur(root->left);
+        int right = maxPathSumRecur(root->right);
+        int max_path = root->val + max(max(left, right), 0);
+        max_sum = max(max_sum, max_path);
+        max_sum = max(max_sum, max(root->val, root->val + left + right));
+        return max_path;
+    }
+
     int Tree::countHighestScoreNodes(vector<int> &parents) {
         vector<vector<int>> tree(parents.size(), vector<int>());
         for (int i = 0; i < parents.size(); i++) {
@@ -540,11 +572,11 @@ namespace tree {
         return root;
     }
 
-    bool Tree:: isSymmetric(TreeNode* root) {
+    bool Tree::isSymmetric(TreeNode *root) {
         return !root || isSymmetric(root->left, root->right);
     }
 
-    bool Tree:: isSymmetric(TreeNode* left, TreeNode* right) {
+    bool Tree::isSymmetric(TreeNode *left, TreeNode *right) {
         if (!left && !right) {
             return true;
         }
@@ -552,15 +584,16 @@ namespace tree {
             return false;
         }
 
-        return left->val == right->val && isSymmetric(left->left, right->right) && isSymmetric(left->right, right->left);
+        return left->val == right->val && isSymmetric(left->left, right->right) &&
+               isSymmetric(left->right, right->left);
     }
 
-    TreeNode* Tree::removeLeafNodes(TreeNode* root, int target) {
+    TreeNode *Tree::removeLeafNodes(TreeNode *root, int target) {
         if (!root) {
             return root;
         }
-        TreeNode* left = removeLeafNodes(root->left, target);
-        TreeNode* right = removeLeafNodes(root->right, target);
+        TreeNode *left = removeLeafNodes(root->left, target);
+        TreeNode *right = removeLeafNodes(root->right, target);
         if (!left && !right && root->val == target) {
             return nullptr;
         }
@@ -569,7 +602,7 @@ namespace tree {
         return root;
     }
 
-    bool Tree::evaluateTree(TreeNode* root) {
+    bool Tree::evaluateTree(TreeNode *root) {
         if (!root) {
             return true;
         }
@@ -581,29 +614,30 @@ namespace tree {
         return root->val == 2 ? (left || right) : (left && right);
     }
 
-    int Tree::maxAncestorDiff(TreeNode* root) {
+    int Tree::maxAncestorDiff(TreeNode *root) {
         maxAncestorDiffExtre(root);
         return res;
     }
 
-    pair<int,int> Tree::maxAncestorDiffExtre(TreeNode* root) {
+    pair<int, int> Tree::maxAncestorDiffExtre(TreeNode *root) {
         if (!root) {
-            return {1e5+1, -1};
+            return {1e5 + 1, -1};
         }
         auto left = maxAncestorDiffExtre(root->left);
         auto right = maxAncestorDiffExtre(root->right);
         int min_val = min(left.first, right.first);
         int max_val = max(left.second, right.second);
-        res = min_val == 1e5+1 ? res : max(res, abs(root->val - min_val));
+        res = min_val == 1e5 + 1 ? res : max(res, abs(root->val - min_val));
         res = max_val == -1 ? res : max(res, abs(root->val - max_val));
-        return {min(min_val,root->val), max(max_val,root->val)};
+        return {min(min_val, root->val), max(max_val, root->val)};
     }
 
-    TreeNode* Tree::sufficientSubset(TreeNode* root, int limit) {
+    TreeNode *Tree::sufficientSubset(TreeNode *root, int limit) {
         bool res = sufficientSubset(root, 0, limit);
         return res ? root : nullptr;
     }
-    bool Tree::sufficientSubset(TreeNode* root, int sum, int limit) {
+
+    bool Tree::sufficientSubset(TreeNode *root, int sum, int limit) {
         if (!root) {
             return true;
         }

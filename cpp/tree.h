@@ -111,8 +111,9 @@ namespace tree {
 
         // [剑指 Offer 68 - II.] 二叉树的最近公共祖先 easy  //做了好几次还是不记得
         TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q);
-        //第二次做，fine
+        //第二次做，fine //3rd, 没问题
         TreeNode *lowestCommonAncestor2(TreeNode *root, TreeNode *p, TreeNode *q);
+        TreeNode *lowestCommonAncestor3(TreeNode *root, TreeNode *p, TreeNode *q);
 
         // [剑指 Offer 34] 二叉树路径长等于某值 medium //对节点的操作的位置，体会纲领
         std::vector<std::vector<int>> paths;
@@ -183,6 +184,10 @@ namespace tree {
         int maxSumBST(TreeNode *root);
 
         vector<int> maxSumBSTIsBSTRecur(TreeNode *root);
+
+        //[124] //树模版，初始化max不对边界case
+        int maxPathSum(TreeNode* root);
+        int maxPathSumRecur(TreeNode* root);
 
         //[2049] 统计最高分的节点数目
         map<int, int> scores;

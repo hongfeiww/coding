@@ -407,6 +407,41 @@ namespace dp {
         return dp[n];
     }
 
+    int dp::maximalSquare(vector<vector<char>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        vector<vector<int>>dp(m, vector<int>(n, 0));
+        vector<vector<int>>pre = {
+                {-1, 0},
+                {0, -1},
+                {-1, -1}
+        };
+        int res = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == '0') {
+                    continue;
+                }
+                dp[i][j] = 1;
+                int min_val = m + n;
+                for (auto& dir : pre) {
+                    int x = i + dir[0];
+                    int y= j + dir[1];
+                    if (x >= 0 && x < m && y >= 0 && y < n) {
+                        min_val = min(dp[x][y], min_val);
+                    } else {
+                        min_val = min(0, min_val);
+                    }
+                }
+                dp[i][j] += min_val < m ? min_val : 0;
+                // cout <<i<<j<<dp[i][j]<<endl;
+                res = max(res, dp[i][j]);
+            }
+        }
+        return res * res;
+
+    }
+
     int dp::minCost(vector<vector<int>> &costs) {
         int n = costs.size();
         vector<vector<int>> dp(n, vector<int>(3, 20001));

@@ -22,6 +22,10 @@ void test_vec(vector<int> vec) {
 }
 
 int main() {
+    int a = 10;
+    int& b = a;
+    b = 20;
+    cout<<a<<endl;
     map<int, int> mm;
     mm[0]++;
 
@@ -382,7 +386,7 @@ int main() {
     /// string
     std::string str = std::to_string(1);
     str.substr(0, 1); //pos and size
-    bool a = str.find(str) == string::npos;
+    bool xx = (str.find(str) == string::npos);
     str.append(str);
     str = str + str;
 
