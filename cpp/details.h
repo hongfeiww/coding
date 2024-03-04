@@ -131,6 +131,7 @@ public:
 
     /////* stack */
     // 单调栈/队列是为了快速获取离某个元素最近的更大/小元素
+    //这个题本质就是要求某个数与其右边最大的数的差值，这符合了单调栈的应用场景 当你需要高效率查询某个位置左右两侧比他大（或小）的数的位置的时候
     //[735] asteroids collision m //没想到用stack，先考虑写对了，不用优化
     vector<int> asteroidCollision(vector<int> &asteroids);
 
@@ -185,6 +186,9 @@ public:
 //        }
 //    }
 
+    // [121] 买买股票 e // pointer 剪枝，什么时候哪些部分都可以舍弃了
+    int maxProfit(vector<int>& prices);
+
     //[offer 21] 调整数组顺序使奇数位于偶数前面 easy // 双指针模版
     vector<int> exchange(vector<int> &nums);
 
@@ -200,8 +204,18 @@ public:
     //[532] 数组中的k-diff数对 medium //有点不美观，边界case要考虑
     int findPairs(vector<int> &nums, int k);
 
-    //[26] delete duplicates easy //如何实现思路
+    //[169] 多数元素 e //双指针，别的思路
+    int majorityElement(vector<int>& nums);
+
+    //[26] delete duplicates easy //如何实现思路 slow-fast pointers
+    //[27] remove elements easy //while + if 不用while while
+    //[80] remove elements 2 m //想不出来
+    //由于是保留 k 个相同数字，对于前 k 个数字，我们可以直接保留
+    // 「删除有序数组重复项」的通解:对于后面的任意数字，能够保留的前提是：与当前写入的位置前面的第 k 个元素进行比较，不相同则保留
+
+    int removeElement(vector<int>& nums, int val);
     int removeDuplicates(vector<int> &nums);
+    int removeDuplicates2(vector<int>& nums);
 
     //[83] delete duplicates easy //末端处理
     ListNode *deleteDuplicates(ListNode *head);
@@ -289,6 +303,8 @@ public:
     ///sort
     //[2418] 按身高排序 e //sort()用法
     vector<string> sortPeople(vector<string> &names, vector<int> &heights);
+    //[275] h index e //没想到简单的sort
+    int hIndex(vector<int>& citations);
 
     ///* Quick Sort*/ //快速排序就是一个二叉树的前序遍历 //快速排序的过程是一个构造二叉搜索树的过程
     void quick_sort(vector<int> &nums, int l, int r);

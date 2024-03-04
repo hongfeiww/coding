@@ -27,6 +27,12 @@ public:
 //            做选择
 //            backtrack(路径, 选择列表)
 //    撤销选择
+
+    //[52][51] N皇后，需要记录做选择的限制条件，斜线
+    int res_int = 0;
+    int totalNQueens(int n);
+    void totalNQueens(int n, int row, set<int> cols, set<int> left, set<int> right);
+
     //[46] 全排列 m
     vector<vector<int>>res;
     vector<vector<int>>total;
@@ -56,6 +62,10 @@ public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target);
     void combinationSum(vector<int>& candidates, int left, int idx);
 
+    //[17] 电话号码组合 m// 简单模版
+    vector<string> letterCombinations(string digits);
+    void letterCombinations(string digits, int idx, string path);
+
     //[offer2 110] 所有路径 //DFS
     //回溯算法的「做选择」和「撤销选择」在 for 循环里面，DFS在 for 循环外面 （否则DFS会漏掉记录起始点的遍历）
     //回溯算法关注树枝,DFS关注节点
@@ -67,10 +77,13 @@ public:
     bool canPartitionKSubsets(vector<int>& nums, int k);
 
     //[offer2 086]分割palindrome string //回溯是分支视角，一开始的执行逻辑角度不对，以为是累积的 // 迭代计算回文串
+    //实际上拆解了，无法同时回溯+判断pali。先pali，然后选择为所有的pali
+    //选择这里可以不是for，可以for加条件
     vector<vector<string>>res_strs;
     vector<string>path_str;
     vector<vector<string>> partition(string s);
     void partition(string s, vector<vector<bool>> &is_palindrome, int pos);
+
     int findTargetSumWays(vector<int>& nums, int target);
     int res_cnt = 0;
     void findTargetSumWaysBT(vector<int>& nums, int target ,int pos);

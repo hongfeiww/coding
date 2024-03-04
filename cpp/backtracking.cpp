@@ -3,11 +3,47 @@
 //
 
 #include <string>
+#include <set>
 #include <queue>
 #include <numeric>
 #include "backtracking.h"
 
 
+int res = 0;
+int backtracking::totalNQueens(int n) {
+    set<int> cols;
+    set<int> left;
+    set<int> right;
+    res_int = 0;
+    totalNQueens(n, 0,cols,left,right);
+    return res_int;
+}
+
+void backtracking::totalNQueens(int n, int row, set<int> cols, set<int> left, set<int> right) {
+    if (row == n) {
+        res_int++;
+        return;
+    }
+    for (int i = 0; i < n; i++) {
+        if (cols.count(i)) {
+            continue;
+        }
+        if (left.count(i + row)) {
+            continue;
+        }
+        if (right.count(i - row)) {
+            continue;
+        }
+
+        cols.insert(i);
+        left.insert(i + row);
+        right.insert(i - row);
+        totalNQueens(n,row+1, cols,left,right);
+        cols.erase(i);
+        left.erase(i + row);
+        right.erase(i - row);
+    }
+}
 vector<vector<int>> backtracking::permute(vector<int> &nums) {
     path.clear();
     total.clear();
@@ -134,6 +170,38 @@ void backtracking::combinationSum(vector<int> &candidates, int left, int idx) {
         subset.push_back(candidates[i]);
         combinationSum(candidates, left - candidates[i], i);
         subset.pop_back();
+    }
+}
+
+unordered_map<char, string> dict{
+        {'2', "abc"},
+        {'3', "def"},
+        {'4', "ghi"},
+        {'5', "jkl"},
+        {'6', "mno"},
+        {'7', "pqrs"},
+        {'8', "tuv"},
+        {'9', "wxyz"}
+};
+
+vector<string> backtracking::letterCombinations(string digits) {
+    if (digits.empty()) {
+        return path_str;
+    }
+    string path;
+    letterCombinations(digits, 0, path);
+    return path_str;
+}
+void backtracking::letterCombinations(string digits, int idx, string path) {
+    if (idx == digits.size()) {
+        path_str.push_back(path);
+        return;
+    }
+    string opts = dict[digits[idx]];
+    for (const auto& opt : opts) {
+        path += opt;
+        letterCombinations(digits, idx+1, path);
+        path = path.substr(0, path.size()-1);
     }
 }
 

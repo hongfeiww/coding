@@ -477,6 +477,18 @@ int details::minArray(vector<int> &numbers) {
     return numbers[i];
 }
 
+int details::maxProfit(vector<int>& prices) {
+    int pivot = prices[0];
+    int res = 0;
+    for (int i = 1; i < prices.size(); i++) {
+        if (prices[i] > pivot) {
+            res = max(res, prices[i] - pivot);
+        } else {
+            pivot = prices[i];
+        }
+    }
+    return res;
+}
 vector<int> details::exchange(vector<int> &nums) {
     int i = 0;
     int j = nums.size() - 1;
@@ -690,6 +702,23 @@ vector<string> details::sortPeople(vector<string> &names, vector<int> &heights) 
         res[i] = names[idx[i]];
     }
     return res;
+}
+
+int details::hIndex(vector<int>& citations) {
+    int n = citations.size();
+    vector<int> bucket(n+1, 0);
+    for (const int& cit : citations) {
+        bucket[min(n, cit)]++;
+    }
+    int cnt = 0;
+    for (int i = n; i >= 0 ; i--) {
+        cnt += bucket[i];
+        //  cout<<cnt<<" "<<n<<endl;
+        if (cnt >= i) {
+            return i;
+        }
+    }
+    return 0;
 }
 
 vector<int> details::spiralOrder(vector<vector<int>> &matrix) {
@@ -1326,6 +1355,39 @@ int details::findPairs(vector<int> &nums, int k) {
     }
     return res;
 }
+int details::removeElement(vector<int>& nums, int val) {
+    int i = 0;
+    int j = nums.size() - 1;
+    while (i <= j) {
+        if (nums[i] == val) {
+            nums[i] = nums[j];
+            j--;
+        } else {
+            i++;
+        }
+    }
+
+    return i;
+}
+
+int details::majorityElement(vector<int>& nums) {
+    int n = nums[0];
+    int j = 1;
+    int cnt = 1;
+    while (j < nums.size()) {
+        if (n == nums[j]) {
+            cnt++;
+        } else {
+            cnt--;
+        }
+        if (cnt <= 0) {
+            n = nums[j];
+            cnt = 1;
+        }
+        j++;
+    }
+    return n;
+}
 
 int details::removeDuplicates(vector<int> &nums) {
     if (nums.size() == 0) {
@@ -1341,6 +1403,19 @@ int details::removeDuplicates(vector<int> &nums) {
         }
     }
     return i + 1;
+}
+int details::removeDuplicates2(vector<int>& nums) {
+    int i = 2;
+    int j = 2;
+    while (j < nums.size()) {
+        if (nums[i-2] == nums[j]) {
+            j++;
+        } else {
+            nums[i] = nums[j];
+            i++; j++;
+        }
+    }
+    return i;
 }
 
 ListNode *details::deleteDuplicates(ListNode *head) {

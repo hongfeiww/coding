@@ -195,6 +195,10 @@ namespace graph {
         //[542] 矩阵 m //模版dfs，思路简单
         vector<vector<int>> updateMatrix(vector<vector<int>>& mat);
 
+        //[200] / //模版dfs，思路简单，visited可以直接改，注意题目要求只能改成0
+        int numIslands(vector<vector<char>>& grid);
+        void numIslands(vector<vector<char>>& grid, int i, int j);
+
         //[841] 能否打开所有房间 easy // 6min，思路简单，模版bfs
          bool canVisitAllRooms(vector<vector<int>>& rooms);
 
@@ -203,6 +207,9 @@ namespace graph {
 
         //[45] //常规bfs，有个边界case
         int jump(vector<int>& nums);
+
+        //[127] 单词接龙 h //bfs 最短路径模版，忘记visited了 //还可以优化，建图
+        int ladderLength(string beginWord, string endWord, vector<string>& wordList);
 
     };
 }

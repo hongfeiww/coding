@@ -35,9 +35,12 @@ namespace dp {
         vector<double> dicesProbability(int n);
         //[5] 最长回文子串 m //debug才做对 //len = j - i + 1
         string longestPalindrome(string s);
+
         //[55] jump game //dp 剪枝不然tle //greed
+        //[45] jum game 2 //greed 其实和第一题一样，没想到
         bool canJump(vector<int>& nums);
         bool canJump(vector<int>& nums, int greed);
+
         //[44] regex e //dp, 有个复杂情况转移方程想少情况了
         bool isMatch2(string s, string p);
         //[174] 地下城游戏 h //逆向dp消除一个因子的影响，没想到
@@ -58,6 +61,11 @@ namespace dp {
         int minCost(vector<vector<int>>& costs);
         //[offer2 098] path cnt easy //思路和实现都简单
         int uniquePaths(int m, int n);
+
+        // [121] 买买股票 e // 忘记dp思路了 需要复习
+        //dp[0][i] = x[i] + dp[1][i-1], dp[0][i-1]
+        //dp[1][i] = dp[1][i-1], dp[0][i] - x[i]
+        int maxProfit(vector<int>& prices);
 
         /* 要求将一个序列或字符串划分成若干满足要求的片段
            解决方法：最后一步 -> 最后一段

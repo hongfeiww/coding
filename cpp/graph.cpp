@@ -608,6 +608,38 @@ namespace graph {
         }
         return res;
     }
+    int Graph::numIslands(vector<vector<char>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        int res = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
+                    // cout<<i<<j<<endl;
+                    res++;
+                    numIslands(grid, i, j);
+                }
+            }
+        }
+        return res;
+    }
+    void Graph::numIslands(vector<vector<char>>& grid, int i, int j){
+
+        if (i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size()) {
+            return;
+        }
+
+        if (grid[i][j] != '1') {
+            return;
+        }
+        grid[i][j] = '0';
+        numIslands(grid, i+1, j);
+        numIslands(grid, i-1, j);
+        numIslands(grid, i, j+1);
+        numIslands(grid, i, j-1);
+
+    }
 
     bool  Graph::canVisitAllRooms(vector<vector<int>>& rooms) {
         queue<int>q;
@@ -716,6 +748,47 @@ namespace graph {
 
         }
         return -1;
+    }
+    int Graph::ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_map<string, bool> dict;
+
+        for (const auto& word : wordList) {
+            dict[word] = false;
+        }
+        if (dict.count(endWord) == 0) {
+            return 0;
+        }
+        queue<string> q;
+        q.push(beginWord);
+        dict[beginWord] = true;
+        int depth = 1;
+        while(!q.empty()) {
+            depth++;
+            int l = q.size();
+            while (l > 0) {
+                string str = q.front();
+                q.pop();
+                for (int i = 0; i < str.size(); i++) {
+                    for (char ch = 'a'; ch <= 'z'; ch++) {
+                        if (str[i] == ch) {
+                            continue;
+                        }
+                        string next_str = str;
+                        next_str[i] = ch;
+                        if (dict.count(next_str) == 0 || dict[next_str]) {
+                            continue;
+                        }
+                        if (next_str == endWord) {
+                            return depth;
+                        }
+                        q.push(next_str);
+                        dict[next_str] = true;
+                    }
+                }
+                l--;
+            }
+        }
+        return 0;
     }
 
 }

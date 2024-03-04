@@ -390,9 +390,12 @@ int main() {
     str.append(str);
     str = str + str;
 
+
+
     string str_init = string("abc");
-    str_init[0];
+    str_init[0] = 'd';
     char ch = str_init.at(0);
+    str +=  ch ;
     str.size();
     // string转char *
     const char *p = str_init.c_str();
@@ -432,6 +435,7 @@ int main() {
     auto vec_iter = vec_demo.begin();
     while (vec_iter != vec_demo.end()) {
         vec_iter++;
+        int val = *vec_iter;
     }
 
     vector<int> vec_demo2(vec_demo.begin(), vec_demo.begin() + 1);
@@ -524,6 +528,7 @@ int main() {
 //         [x](int a, int b) -> bool { return abs(a - x) < abs(b - x) || abs(a - x) == abs(b - x) && a < b; });
     vector<int> id(10);
     iota(id.begin(), id.end(), 0);
+    int rand = std::rand() % 100;
 
 
 }

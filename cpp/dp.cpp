@@ -464,6 +464,17 @@ namespace dp {
         return dp[m - 1][n - 1];
     }
 
+    int dp::maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        int dp_hold = -prices[0];
+        int dp_sell = 0;
+        for (int i = 1; i < n; i++) {
+            dp_hold = max(dp_hold, dp_sell - prices[i]);
+            dp_sell = max(dp_hold + prices[i], dp_sell);
+        }
+        return max(dp_sell, dp_hold);
+    }
+
     int dp::maxSumAfterPartitioning(vector<int> &arr, int k) {
         int n = arr.size();
         vector<int> dp(n+1, 0);
