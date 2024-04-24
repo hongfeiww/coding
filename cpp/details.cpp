@@ -310,7 +310,26 @@ ListNode *details::addTwoNumbers(ListNode *l1, ListNode *l2) {
 
 }
 
-ListNode *details::insertionSortList(ListNode *head) {
+ListNode* details::insertionSortList(ListNode* head) {
+    ListNode* pre = new ListNode(-5010); //这是一个单独的res list，每次把排好的放进来
+    ListNode* target = head;
+    while (target) {
+        ListNode* tmp = pre;
+        while (tmp->next && tmp->next->val <= target->val) {
+            tmp = tmp->next;
+        }
+
+        ListNode* new_target = target->next;
+        target->next = tmp->next;
+        tmp->next = target;
+        target = new_target;
+    }
+
+
+    return pre->next;
+}
+
+ListNode *details::insertionSortList2(ListNode *head) {
     ListNode *res = new ListNode(0, head);
     ListNode *head_next;
     ListNode *head_pre = res; //debug
@@ -331,6 +350,45 @@ ListNode *details::insertionSortList(ListNode *head) {
         head_pre = flag ? head_pre : head; //debug
         head = head_next;
         // cout<<head->val<<endl;
+    }
+    return res->next;
+}
+
+ListNode* details::reverseKGroup(ListNode* head, ListNode* tail) {
+    if (head == tail) {
+        return head;
+    }
+    ListNode* new_head = reverseKGroup(head->next, tail);
+    head->next->next = head;
+    head->next = nullptr;
+    return new_head;
+}
+
+ListNode* details::reverseKGroup(ListNode* head, int k) {
+    if (k == 1) {
+        return head;
+    }
+    ListNode* res = new ListNode();
+    ListNode* sorted = res;
+    ListNode* begin = head;
+    while (begin) {
+        ListNode* end = begin;
+        int cnt = 1;
+        while (end && cnt < k) {
+            end = end->next;
+            cnt++;
+        }
+        if (end) {
+            ListNode* next_begin = end->next;
+            ListNode* new_end = begin;
+            ListNode* new_begin = reverseKGroup(begin, end);
+            sorted->next = new_begin;
+            sorted = new_end;
+            begin = next_begin;
+        } else {
+            sorted->next = begin;
+            return res->next;
+        }
     }
     return res->next;
 }
@@ -1946,5 +2004,36 @@ ListNode *details::mergeKListsMergeSort(vector<ListNode *> &lists, int l, int r)
         tmp->next = right_sorted;
     }
     return pre_head->next;
+}
+
+ListNode* details::sortList(ListNode* head) {
+    if (!head || !head->next) {
+        return head;
+    }
+    ListNode* fast = head->next;
+    ListNode* slow = head;
+    while (fast && fast->next) {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    ListNode* mid = slow->next;
+    slow->next = nullptr;
+    ListNode* l1 = sortList(head);
+    ListNode* l2 = sortList(mid);
+    ListNode* res = new ListNode();
+    ListNode* pos = res;
+    while (l1 && l2) {
+        if (l1->val <= l2->val) {
+            pos->next = l1;
+            l1 = l1->next;
+        }else {
+            pos->next = l2;
+            l2 = l2->next;
+        }
+        pos = pos->next;
+
+    }
+    pos->next = l1?l1:l2;
+    return res->next;
 }
 

@@ -152,14 +152,20 @@ public:
     //[1669] merge and cut list easy //简单但是循环次数bug
     ListNode *mergeInBetween(ListNode *list1, int a, int b, ListNode *list2);
 
-    //[1019] list 中下一个更大节点 m //做过好几次，记住了
+    //[1019] list 中下一个更大节点 m //做过好几次，记住了 // 用的pair stack，存储了值和idx
     vector<int> nextLargerNodes(ListNode *head);
 
-    //[offer2 025] 链表中的两数相加 m //链表用栈可以逆序
+    //[offer2 025] 链表中的两数相加 m //链表用栈可以逆序 //头插链表
     ListNode *addTwoNumbers(ListNode *l1, ListNode *l2);
 
     //[147] 使用 插入排序 对链表进行排序，并返回 排序后链表的头 m //cout是bug没想到
+    //什么破玩意看不懂
     ListNode *insertionSortList(ListNode *head);
+    ListNode *insertionSortList2(ListNode *head);
+
+    //[25] k个一组翻转链表 h // reverse recursive + 处理链表拼接 //不难
+    ListNode* reverseKGroup(ListNode* head, ListNode* tail);
+    ListNode* reverseKGroup(ListNode* head, int k);
 
     ///* pointers */
     //双指针技巧主要分为两类：左右指针和快慢指针
@@ -319,11 +325,14 @@ public:
     //[973] 返回离原点 (0,0) 最近的k 个点 m //和215一样，lambda的recur写法，left不+1
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k);
 
-    ///* Merge Sort*/ //合并排序关键在于合并的操作
+    ///* Merge Sort*/ //树的后序遍历 //合并排序关键在于合并的操作
     //[23] merge sorted linked-list m //merge sort
     ListNode *mergeKLists(vector<ListNode *> &lists);
 
     ListNode *mergeKListsMergeSort(vector<ListNode *> &lists, int l, int r);
+
+    //[148] 链表排序 m //和23一样，都是mergesort，一次过//找中点需要快慢指针
+    ListNode* sortList(ListNode* head);
 
 
 };

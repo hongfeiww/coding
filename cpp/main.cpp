@@ -17,15 +17,46 @@
 using namespace std;
 
 
+
 void test_vec(vector<int> vec) {
     vec.clear();
 }
+void count_yard_dfs(vector<vector<int>>& matrix, int i, int j) {
+    if (i < 0 || i >= matrix.size() || j < 0 || j >= matrix[0].size()) {
+        return;
+    }
+    if (matrix[i][j] != 1) {
+        return;
+    }
+    matrix[i][j] = -1;
+    vector<vector<int>> dirs = {{0,-1}, {0,1}, {1,0}, {-1,0}};
+    for (const auto& dir : dirs) {
+        count_yard_dfs(matrix, i + dir[0], j + dir[1]);
+    }
+
+};
+
+int count_yard(vector<vector<int>>& matrix) {
+    //vector<vector<bool>> visited(matrix.size(), vector<bool>(matrix[0].size(), false));
+   int res = 0;
+    for (int i = 0; i < matrix.size(); i++) {
+       for (int j = 0; j < matrix[0].size(); j++) {
+           if (matrix[i][j] == 1) {
+               count_yard_dfs(matrix, i, j);
+               res++;
+           }
+       }
+   }return res;
+};
+
+
 
 int main() {
+
     int a = 10;
-    int& b = a;
+    int &b = a;
     b = 20;
-    cout<<a<<endl;
+    cout << a << endl;
     map<int, int> mm;
     mm[0]++;
 
@@ -301,12 +332,14 @@ int main() {
 
     test_vec(input);
 
-    vector<int> input2 = {1,2,1,2,3};
+    vector<int> input2 = {1, 2, 1, 2, 3};
+    ListNode* in1 = new ListNode(1);
+    ListNode* in2 = new ListNode(2, in1);
     vector<string> input_str = {"word", "good", "best", "good"};
 //       auto res = d.advantageCount(input,input2);
     //   int res = g.kSimilarity("abccaacceecdeea","bcaacceeccdeaae");
-    auto res = d.subarraysWithKDistinct(input2, 2);
-    //   cout << res << endl;
+    auto res = d.insertionSortList(in2);
+      cout << res->val << endl;
 //    for (int i = 0; i < res.size(); i++) {
 //        std::cout << res[i] << endl;
 //    }
@@ -350,6 +383,8 @@ int main() {
     struct StructDemo {
         int int_obj;
         double double_obj;
+        StructDemo() : int_obj(0), double_obj(0) {}
+        StructDemo(int xx, double yy) : int_obj(xx), double_obj(yy) {}
     };
     StructDemo struct_demo;
     struct_demo.int_obj = 1;
@@ -391,11 +426,10 @@ int main() {
     str = str + str;
 
 
-
     string str_init = string("abc");
     str_init[0] = 'd';
     char ch = str_init.at(0);
-    str +=  ch ;
+    str += ch;
     str.size();
     // string转char *
     const char *p = str_init.c_str();
@@ -480,6 +514,7 @@ int main() {
     priority_queue<int, vector<int>, decltype(cmp)> pqueue_demo_div(cmp);
     pqueue_demo.top();
     pqueue_demo.push(1);
+    pqueue_demo.pop();
 
 //    auto cmp = [&nums1, &nums2](const pair<int, int> & a, const pair<int, int> & b) { return nums1[a.first] + nums2[a.second] > nums1[b.first] + nums2[b.second]; };
 //    priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)> pq(cmp);
